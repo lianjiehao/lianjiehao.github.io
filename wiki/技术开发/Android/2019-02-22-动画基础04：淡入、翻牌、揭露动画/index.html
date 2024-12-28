@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Android动画（四）：淡入淡出、翻牌、揭露动画 | Hexo</title>
+    
+    
+        <meta name="keywords" content="Animation">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。以下内容是对官方文档的翻译。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android动画（四）：淡入淡出、翻牌、揭露动画">
+<meta property="og:url" content="http://example.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。以下内容是对官方文档的翻译。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-02-22T07:20:25.000Z">
+<meta property="article:modified_time" content="2024-12-24T14:15:20.963Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Animation">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Hexo</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">七夕前，我认识了NDK</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究（一）：添加头尾布局</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file active"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/Android/2019-02-22-动画基础04：淡入、翻牌、揭露动画" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Animation/" rel="tag">Animation</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">
+            <time datetime="2019-02-22T07:20:25.000Z" itemprop="datePublished">2019-02-22</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Android动画（四）：淡入淡出、翻牌、揭露动画
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p>笔者已将本节的代码上传至 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tangxianming/AnimationPracticeApplication">Github</a>，大家可以结合着学习。以下内容是对<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/training/animation/reveal-or-hide-view#java">官方文档</a>的翻译。<span id="more"></span><br>当你在使用APP时，如果立即从旧的内容切换到新内容，则很容易让用户感到不适，所以我们需要转场动画来平滑地过渡这种新旧内容的切换过程。<br>有三种常用的动画适合该场景，他们分别是淡入淡出动画、翻牌动画、揭露动画。</p>
+<h2 id="淡入淡出动画"><a href="#淡入淡出动画" class="headerlink" title="淡入淡出动画"></a>淡入淡出动画</h2><p>淡入淡出动画顾名思义是在一个 View 或者 ViewGroup 消失时，另外一个View同步显示的动画。本节采用<code>ViewPropertyAnimator</code>实现淡入淡出动画，从Android 3.1 （API level 12）开始支持 ViewPropertyAnimator。<br>这是一个使用淡入淡出动画的例子。</p>
+
+<h4 id="创建views"><a href="#创建views" class="headerlink" title="创建views"></a>创建views</h4><p>首先，你需要创建两个你需要使用淡入淡出动画的 View。下面创建了一个进度指示 View 和一个可滑动的文本 View：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        android:id=&quot;@+id/content&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            style=&quot;?android:textAppearanceMedium&quot;</span><br><span class="line">            android:lineSpacingMultiplier=&quot;1.2&quot;</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:text=&quot;@string/lorem_ipsum&quot;</span><br><span class="line">            android:padding=&quot;16dp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/ScrollView&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ProgressBar</span><br><span class="line">        android:id=&quot;@+id/loading_spinner&quot;</span><br><span class="line">        style=&quot;?android:progressBarStyleLarge&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_gravity=&quot;center&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/FrameLayout&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="创建淡入淡出动画"><a href="#创建淡入淡出动画" class="headerlink" title="创建淡入淡出动画"></a>创建淡入淡出动画</h4><p>分为3个步骤：<br>1、创建成员变量以便接下来对其添加动画。<br>2、对于将要淡入的 View，提前将 visibility 属性设置为<code>GONE</code>。这不仅能够避免该 View 在动画开始之前占用 layout 空间，同时也避免了不必要的 layout 计算。<br>3、预先保存<code>config_shortAnimTime</code>属性值。这个属性值表示标准的短暂动画时长，这个时长是很理想的数值对于频繁使用的动画来说。除此之外，还有<code>config_longAnimTime</code>和<code>config_mediumAnimTime </code>可供选择。</p>
+<p>下面的代码使用了之前创建的 layout 作为活动的 content view：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class CrossfadeActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">    private View contentView;</span><br><span class="line">    private View loadingView;</span><br><span class="line">    private int shortAnimationDuration;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_crossfade);</span><br><span class="line"></span><br><span class="line">        contentView = findViewById(R.id.content);</span><br><span class="line">        loadingView = findViewById(R.id.loading_spinner);</span><br><span class="line"></span><br><span class="line">        // Initially hide the content view.</span><br><span class="line">        contentView.setVisibility(View.GONE);</span><br><span class="line"></span><br><span class="line">        // Retrieve and cache the system&#x27;s default &quot;short&quot; animation time.</span><br><span class="line">        shortAnimationDuration = getResources().getInteger(</span><br><span class="line">                android.R.integer.config_shortAnimTime);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="添加淡入淡出动画"><a href="#添加淡入淡出动画" class="headerlink" title="添加淡入淡出动画"></a>添加淡入淡出动画</h4><p>最后，我们要实现淡入淡出动画还需要如下3个步骤：<br>1、对于将要淡入的 View，设置它的 alpha 属性为0并且设置 visiblity 为<code>VISIBLE</code>（该 View 之前的 visibility 为<code>GONE</code>）。这一步让该 View 处于可见但完全透明的状态。<br>2、对将要淡入的view，让它的透明度从0变化到1。对于将要淡出的view，让它的透明度从1到0。<br>3、在<code>Animator.AnimatorListener</code>的<code>onAnimationEnd()</code>方法中设置淡出view 的 visibility 属性为<code>GONE</code>。注意，虽然该 View 已经完全透明，但是设置属性 visibility 为<code>GONE</code>不仅可以阻止该 View 占用 layout 空间，同时还避免了不必要的 layout 计算。<br>下面是这几步的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class CrossfadeActivity extends Activity &#123;</span><br><span class="line">    private View contentView;</span><br><span class="line">    private View loadingView;</span><br><span class="line">    private int shortAnimationDuration;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    private void crossfade() &#123;</span><br><span class="line">        contentView.setAlpha(0f);</span><br><span class="line">        contentView.setVisibility(View.VISIBLE);</span><br><span class="line">        contentView.animate()</span><br><span class="line">                .alpha(1f)</span><br><span class="line">                .setDuration(shortAnimationDuration)</span><br><span class="line">                .setListener(null);</span><br><span class="line">        loadingView.animate()</span><br><span class="line">                .alpha(0f)</span><br><span class="line">                .setDuration(shortAnimationDuration)</span><br><span class="line">                .setListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">                        loadingView.setVisibility(View.GONE);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="翻牌动画"><a href="#翻牌动画" class="headerlink" title="翻牌动画"></a>翻牌动画</h2><p>该动画适用于在两个 View 之间实现类似翻牌的动效。本节的翻牌动画借助了<code>FragmentTransaction</code>类的<code>setCustomAnimations</code>方法，该类从 Android3.0（API等级11） 开始可以调用。当然，你也可以借助其他的方式实现咯。</p>
+<h4 id="创建Animator-object"><a href="#创建Animator-object" class="headerlink" title="创建Animator object"></a>创建Animator object</h4><p>为了创建翻牌动画，你一共需要四个 animators。两个分别控制前面的内容（卡片正面）从左边翻出和从左边翻入。同时需要两个 animators 分别控制后面的内容（卡片反面）从右边翻入和右边翻出。<br>card_flip_left_in.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Before rotating, immediately set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:duration=&quot;0&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;-180&quot;</span><br><span class="line">        android:valueTo=&quot;0&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 1. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0.0&quot;</span><br><span class="line">        android:valueTo=&quot;1.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>card_flip_left_out.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0&quot;</span><br><span class="line">        android:valueTo=&quot;180&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>card_flip_right_in.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Before rotating, immediately set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:duration=&quot;0&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;180&quot;</span><br><span class="line">        android:valueTo=&quot;0&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 1. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0.0&quot;</span><br><span class="line">        android:valueTo=&quot;1.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>card_flip_right_out.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0&quot;</span><br><span class="line">        android:valueTo=&quot;-180&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="创建view"><a href="#创建view" class="headerlink" title="创建view"></a>创建view</h4><p>卡片的正反面是两个独立的 layout，方便之后将这两个独立的 layout 分别绑定到两个 Fragment 上。下面是这两个独立的 layout 之一：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:padding=&quot;130dp&quot;&gt;</span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:background=&quot;#a6c&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">            android:text=&quot;FONT&quot;</span><br><span class="line">            android:textColor=&quot;#FFFFFF&quot;</span><br><span class="line">            android:textStyle=&quot;bold&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>下面是另一个：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:padding=&quot;130dp&quot;&gt;</span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:background=&quot;@color/colorPrimary&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">            android:text=&quot;BACK&quot;</span><br><span class="line">            android:textColor=&quot;#FFFFFF&quot;</span><br><span class="line">            android:textStyle=&quot;bold&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="创建fragments"><a href="#创建fragments" class="headerlink" title="创建fragments"></a>创建fragments</h4><p>创建两个 Fragment 作为卡片的正反面，将之前的两个 layout 分别绑定到这两个 Fragment 上。然后将这两个 Fragment 作为 FragmentActivity 的展示内容，该 Activity 就是你要展示翻牌动画的页面。下面是两个 Fragment 的定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line">    ...</span><br><span class="line">    /**</span><br><span class="line">     * A fragment representing the front of the card.</span><br><span class="line">     */</span><br><span class="line">    public class CardFrontFragment extends Fragment &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public View onCreateView(LayoutInflater inflater, ViewGroup container,</span><br><span class="line">                Bundle savedInstanceState) &#123;</span><br><span class="line">            return inflater.inflate(R.layout.fragment_card_front, container, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * A fragment representing the back of the card.</span><br><span class="line">     */</span><br><span class="line">    public class CardBackFragment extends Fragment &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public View onCreateView(LayoutInflater inflater, ViewGroup container,</span><br><span class="line">                Bundle savedInstanceState) &#123;</span><br><span class="line">            return inflater.inflate(R.layout.fragment_card_back, container, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实现动画"><a href="#实现动画" class="headerlink" title="实现动画"></a>实现动画</h4><p>现在，你需要在 Activity 中展示这两个 Fragment 的内容。为了实现此需求，你应该为你的 Activity 创建一个 layout。下面的例子在此 layout 中创建了一个<code>FrameLayout</code>作为 Fragment 的容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:id=&quot;@+id/container&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>在 Activity 中，将以上的 layout 设置为 content view。然后在 Activity 的<code>oncreate</code>阶段显示卡片的正面内容。下面的例子展示了这一过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_activity_card_flip);</span><br><span class="line"></span><br><span class="line">        if (savedInstanceState == null) &#123;</span><br><span class="line">            getSupportFragmentManager()</span><br><span class="line">                    .beginTransaction()</span><br><span class="line">                    .add(R.id.container, new CardFrontFragment())</span><br><span class="line">                    .commit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在你已经展示了卡片的正面，接下来要做的就是如何使用翻牌动画翻开卡片的背面，当卡片翻转到背面后，再次将其翻转到正面。下面的代码实现这一功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    private void flipCard() &#123;</span><br><span class="line">        if (showingBack) &#123;</span><br><span class="line">            //Flip to the font.</span><br><span class="line">            showingBack = false;</span><br><span class="line">            getSupportFragmentManager()</span><br><span class="line">                    .beginTransaction()</span><br><span class="line">                    //注意setCustomAnimations()方法必须在add、remove、replace调用之前被设置，否则不起作用。</span><br><span class="line">                    .setCustomAnimations(</span><br><span class="line">                            R.animator.card_flip_left_in,</span><br><span class="line">                            R.animator.card_flip_left_out,</span><br><span class="line">                            0,</span><br><span class="line">                            0)</span><br><span class="line">                    .replace(R.id.flContainer, new CardFrontFragment())</span><br><span class="line">                    .commit();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        // Flip to the back.</span><br><span class="line">        showingBack = true;</span><br><span class="line">        getSupportFragmentManager()</span><br><span class="line">                .beginTransaction()</span><br><span class="line">                .setCustomAnimations(</span><br><span class="line">                        R.animator.card_flip_right_in,</span><br><span class="line">                        R.animator.card_flip_right_out,</span><br><span class="line">                        0,</span><br><span class="line">                        0)</span><br><span class="line">                .replace(R.id.flContainer, new CardBackFragment())</span><br><span class="line">                .commit();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>最终实现的效果：</p>
+
+<h2 id="揭露动画"><a href="#揭露动画" class="headerlink" title="揭露动画"></a>揭露动画</h2><p>当需要显示或者隐藏view时，揭露动画给用户提供了一种视觉上的延续。<code>ViewAnimationUtils.createCircularReveal()</code>方法可以帮助你实现此动画，此方式在 Android 5.0（API level 21） 以上提供。<br>下面的代码展示了如何使用揭露动画展示初始状态为 invisible 的 View：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// previously invisible view</span><br><span class="line">View myView = findViewById(R.id.my_view);</span><br><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">    int cx = myView.getWidth() / 2;</span><br><span class="line">    int cy = myView.getHeight() / 2;</span><br><span class="line">    float finalRadius = (float) Math.hypot(cx, cy);</span><br><span class="line">    Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0f, finalRadius);</span><br><span class="line">    myView.setVisibility(View.VISIBLE);</span><br><span class="line">    anim.start();</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // set the view to visible without a circular reveal animation below Lollipop</span><br><span class="line">    myView.setVisibility(View.VISIBLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ViewAnimationUtils.createCircularReveal()</code>动画一共有5个参数。第一个参数表示目标 View。接下来的两个参数代表了揭露动画开始的圆心坐标。一般地，这通常是目标 View的中心点坐标，但是你也可以将它定义为你的手指触摸点的坐标，从而使得揭露动画从你的手指触摸点开始揭露。第四个参数表示动画开始的圆形区域半径。<br>在上面的例子中，初始的圆形半径为0，从而目标 View 初始状态是隐藏的。最后一个参数代表揭露区域（圆形区域）的最大半径。值得注意的是，最后一个参数必须保证能够完全覆盖你的目标 View。<br>下面是使用揭露动画隐藏视图的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// previously visible view</span><br><span class="line">final View myView = findViewById(R.id.my_view);</span><br><span class="line">if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">    int cx = myView.getWidth() / 2;</span><br><span class="line">    int cy = myView.getHeight() / 2;</span><br><span class="line">    float initialRadius = (float) Math.hypot(cx, cy);</span><br><span class="line">    Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0f);</span><br><span class="line">    anim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            myView.setVisibility(View.INVISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    anim.start();</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // set the view to invisible without a circular reveal animation below Lollipop</span><br><span class="line">    myView.setVisibility(View.INVISIBLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实例中，揭露动画的初始半径足够覆盖整个目标视图，所以初始时的视图是完全可见的。最终的半径设置为0，则表示动画结束后会隐藏目标视图。注意，当动画结束后要将目标视图的 visiblility 属性设置为<code>INVISIBLE</code>以提高性能。<br>最终效果如下：</p>
+
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android动画（五）：插值器和估值器补充、Fling动画、物理动画
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android动画（三）：矢量图动画</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            John Doe &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

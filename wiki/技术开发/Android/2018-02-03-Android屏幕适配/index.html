@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Android屏幕适配方案 | Hexo</title>
+    
+    
+        <meta name="keywords" content="View">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章将以Google的官方文档为基础，全面而深入的讲解Android屏幕适配的原因、重要概念、解决方案及最佳实践。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android屏幕适配方案">
+<meta property="og:url" content="http://example.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章将以Google的官方文档为基础，全面而深入的讲解Android屏幕适配的原因、重要概念、解决方案及最佳实践。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-03T12:36:37.000Z">
+<meta property="article:modified_time" content="2024-12-24T14:15:20.963Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="View">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Hexo</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">七夕前，我认识了NDK</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file active"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究（一）：添加头尾布局</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/Android/2018-02-03-Android屏幕适配" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/View/" rel="tag">View</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">
+            <time datetime="2017-08-03T12:36:37.000Z" itemprop="datePublished">2017-08-03</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Android屏幕适配方案
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p>Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章将以Google的官方文档为基础，全面而深入的讲解Android屏幕适配的原因、重要概念、解决方案及最佳实践。<span id="more"></span></p>
+<h1 id="Android屏幕适配出现的原因"><a href="#Android屏幕适配出现的原因" class="headerlink" title="Android屏幕适配出现的原因"></a>Android屏幕适配出现的原因</h1><p><a target="_blank" rel="external nofollow noopener noreferrer" href="http://opensignal.com/reports/2014/android-fragmentation/">Android的屏幕尺寸很多</a>，为了让我们开发的程序能够比较美观的显示在不同尺寸、分辨率、像素密度(这些概念我会在下面详细讲解)的设备上，那就要在开发的过程中进行处理，至于如何去进行处理，这就是我们今天的主题了。</p>
+<h1 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h1><p>什么是屏幕尺寸、屏幕分辨率、屏幕像素密度？<br>什么是dp、dip、dpi、sp、px？他们之间的关系是什么？<br>什么是mdpi、hdpi、xdpi、xxdpi？如何计算和区分？<br>在下面的内容中我们将介绍这些概念。</p>
+<h4 id="屏幕尺寸"><a href="#屏幕尺寸" class="headerlink" title="屏幕尺寸"></a>屏幕尺寸</h4><p>屏幕尺寸指屏幕的对角线的长度，单位是英寸，1英寸&#x3D;2.54厘米。<br>比如常见的屏幕尺寸有2.4、2.8、3.5、3.7、4.2、5.0、5.5、6.0等。</p>
+<h4 id="屏幕分辨率"><a href="#屏幕分辨率" class="headerlink" title="屏幕分辨率"></a>屏幕分辨率</h4><p>屏幕分辨率是指在横纵向上的像素点数，单位是px，1px&#x3D;1个像素点。一般以纵向像素*横向像素，如1960*1080。</p>
+<h4 id="屏幕像素密度"><a href="#屏幕像素密度" class="headerlink" title="屏幕像素密度"></a>屏幕像素密度</h4><p>屏幕像素密度是指每英寸上的像素点数，单位是dpi，即“dot per inch”的缩写。屏幕像素密度与屏幕尺寸和屏幕分辨率有关，在单一变化条件下，屏幕尺寸越小、分辨率越高，像素密度越大，反之越小。</p>
+<h4 id="dp、dip、dpi、sp、px"><a href="#dp、dip、dpi、sp、px" class="headerlink" title="dp、dip、dpi、sp、px"></a>dp、dip、dpi、sp、px</h4><p>px我们应该是比较熟悉的，前面的分辨率就是用的像素为单位，大多数情况下，比如UI设计、Android原生API都会以px作为统一的计量单位，像是获取屏幕宽高等。<br>dip和dp是一个意思，都是Density Independent Pixels的缩写，即密度无关像素，上面我们说过，dpi是屏幕像素密度，假如一英寸里面有160个像素，这个屏幕的像素密度就是160dpi，那么在这种情况下，dp和px如何换算呢？在Android中，规定以160dpi为基准，1dip&#x3D;1px，如果密度是320dpi，则1dip&#x3D;2px，以此类推。<br>假如同样都是画一条320px的线，在480*800分辨率手机上显示为2&#x2F;3屏幕宽度，在320*480的手机上则占满了全屏，如果使用dp为单位，在这两种分辨率下，160dp都显示为屏幕一半的长度。这也是为什么在Android开发中，写布局的时候要尽量使用dp而不是px的原因。<br>而sp，即scale-independent pixels，除了拥有dp的特性，<strong>还会随着系统的字体大小改变而改变，建议在设置字体大小的数值要使用sp作为单位，</strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/donkor_/article/details/77680042">具体可参考这篇文章</a>。<br>sp与dp之间的转换方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public static int px2dip(float pxValue) &#123;</span><br><span class="line">final float scale = Resources.getSystem().displayMetrics.density;</span><br><span class="line">return (int) (pxValue / scale + 0.5f);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">public static int dip2px(float dipValue) &#123;</span><br><span class="line">final float scale = Resources.getSystem().displayMetrics.density;</span><br><span class="line">return (int) (dipValue * scale + 0.5f);  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static int px2sp(float pxValue) &#123;</span><br><span class="line">final float fontScale = Resources.getSystem().displayMetrics.scaledDensity;</span><br><span class="line">return (int) (pxValue / fontScale + 0.5f);  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">public static int sp2px(float spValue) &#123;</span><br><span class="line">final float fontScale = Resources.getSystem().displayMetrics.scaledDensity;</span><br><span class="line">return (int) (spValue * fontScale + 0.5f);  </span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="mdpi、hdpi、xdpi、xxdpi"><a href="#mdpi、hdpi、xdpi、xxdpi" class="headerlink" title="mdpi、hdpi、xdpi、xxdpi"></a>mdpi、hdpi、xdpi、xxdpi</h4><p>其实之前还有个ldpi，但是随着移动设备配置的不断升级，这个像素密度的设备已经很罕见了，所在现在适配时不需考虑。<br>mdpi、hdpi、xdpi、xxdpi用来修饰Android中的drawable文件夹及values文件夹，用来区分不同像素密度下的图片和dimen值。<br>那么如何区分呢？Google官方指定按照下列标准进行区分：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="center">像素密度范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mdpi</td>
+<td align="center">120dpi~160dpi</td>
+</tr>
+<tr>
+<td>hdpi</td>
+<td align="center">160dpi~240dpi</td>
+</tr>
+<tr>
+<td>xhdpi</td>
+<td align="center">240dpi~320dpi</td>
+</tr>
+<tr>
+<td>xxhdpi</td>
+<td align="center">320dpi~480dpi</td>
+</tr>
+<tr>
+<td>xxxhdpi</td>
+<td align="center">480dpi~640dpi</td>
+</tr>
+<tr>
+<td>在进行开发的时候，我们需要把合适大小的图片放在合适的文件夹里面。下面以图标设计为例进行介绍。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>在设计图标时，对于五种主流的像素密度（MDPI、HDPI、XHDPI、XXHDPI 和 XXXHDPI）应按照 2:3:4:6:8 的比例进行缩放。例如，一个启动图标的尺寸为48x48 dp，这表示在 MDPI 的屏幕上其实际尺寸应为 48x48 px，在 HDPI 的屏幕上其实际大小是 MDPI 的 1.5 倍 (72x72 px)，在 XDPI 的屏幕上其实际大小是 MDPI 的 2 倍 (96x96 px)，依此类推。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>虽然 Android 也支持低像素密度 (LDPI) 的屏幕，但无需为此费神，系统会自动将 HDPI 尺寸的图标缩小到 1&#x2F;2 进行匹配。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>下图为图标的各个屏幕密度的对应尺寸:</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>屏幕密度</th>
+<th align="center">图标尺寸</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mdpi</td>
+<td align="center">48x48px</td>
+</tr>
+<tr>
+<td>hdpi</td>
+<td align="center">72x72px</td>
+</tr>
+<tr>
+<td>xhdpi</td>
+<td align="center">96x96px</td>
+</tr>
+<tr>
+<td>xxhdpi</td>
+<td align="center">144x144px</td>
+</tr>
+<tr>
+<td>xxxhdpi</td>
+<td align="center">192x192px</td>
+</tr>
+</tbody></table>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="支持各种屏幕尺寸"><a href="#支持各种屏幕尺寸" class="headerlink" title="支持各种屏幕尺寸"></a>支持各种屏幕尺寸</h2><h4 id="使用wrap-content、match-parent、weight"><a href="#使用wrap-content、match-parent、weight" class="headerlink" title="使用wrap_content、match_parent、weight"></a>使用wrap_content、match_parent、weight</h4><p>为了确保布局的灵活性并适应各种尺寸的屏幕，应尽量使用 “wrap_content” 和 “match_parent” 控制某些视图组件的宽度和高度。使用 “wrap_content”，系统就会将视图的宽度或高度设置成所需的最小尺寸以适应视图中的内容，而 “match_parent”（在低于 API 级别 8 的级别中称为 “fill_parent”）则会展开组件以匹配其父视图的尺寸。<br>weight是线性布局的一个独特的属性，我们可以使用这个属性来按照比例对界面进行分配，完成一些特殊的需求。但是，我们对于这个属性的计算应该如何理解呢？<br>首先，我们将布局设置为线性布局，横向排列，然后放置两个宽度为0dp的按钮，分别设置weight为1和2，我们可以想象到两个按钮按照1：2的宽度比例正常排列了，这也是我们经常使用到的场景。但是假如我们的宽度不是0dp(wrap_content和0dp的效果相同)，而是match_parent呢？<br>在这种情况下，占比和上面正好相反，这是怎么回事呢？说到这里，我们就不得不提一下weight的计算方法了。android:layout_weight的真实含义是:如果View设置了该属性并且有效，那么该 View的宽度等于原有宽度+<strong>剩余空间</strong>的占比。从这个角度我们来解释一下上面的现象。在上面的代码中，我们设置每个Button的宽度都是match_parent，假设屏幕宽度为L，那么每个Button的宽度也应该都为L，剩余宽度就等于L-（L+L）&#x3D; -L。<br>Button1的weight&#x3D;1，所以最终宽度为L+1&#x2F;3*(-L)&#x3D;2&#x2F;3L，Button2的计算类似，最终宽度为L+2&#x2F;3(-L)&#x3D;1&#x2F;3L。<br>同时，垂直方向上的结论和水平是完全一样的。虽然说我们演示了match_parent的显示效果，并说明了原因，但是在真正用的时候，我们都是设置某一个属性为0dp，然后按照权重计算所占百分比。</p>
+<h4 id="使用相对布局，禁用绝对布局"><a href="#使用相对布局，禁用绝对布局" class="headerlink" title="使用相对布局，禁用绝对布局"></a>使用相对布局，禁用绝对布局</h4><p>在开发中，我们大部分时候使用的都是线性布局、相对布局和帧布局，绝对布局由于适配性极差，所以极少使用。<br>由于各种布局的特点不一样，所以不能说哪个布局好用，到底应该使用什么布局只能根据实际需求来确定。我们可以使用 LinearLayout 的嵌套实例并结合 “wrap_content” 和 “match_parent”，以便构建相当复杂的布局。不过，我们无法通过 LinearLayout 精确控制子视图的特殊关系；系统会将 LinearLayout 中的视图直接并排列出。<br>如果我们需要将子视图排列出各种效果而不是一条直线，通常更合适的解决方法是使用 RelativeLayout，这样就可以根据各组件之间的特殊关系指定布局了。例如，我们可以将某个子视图对齐到屏幕左侧，同时将另一个视图对齐到屏幕右侧。</p>
+<h2 id="使用限定符"><a href="#使用限定符" class="headerlink" title="使用限定符"></a>使用限定符</h2><h4 id="使用尺寸限定符"><a href="#使用尺寸限定符" class="headerlink" title="使用尺寸限定符"></a>使用尺寸限定符</h4><p>上面所提到的灵活布局或者是相对布局，可以为我们带来的优势就只有这么多了。虽然这些布局可以拉伸组件内外的空间以适应各种屏幕，但它们不一定能为每种屏幕都提供最佳的用户体验。因此，我们的应用不仅仅只实施灵活布局，还应该应针对各种屏幕配置提供一些备用布局。<br>如何做到这一点呢？我们可以通过使用配置限定符，在运行时根据当前的设备配置自动选择合适的资源了，例如根据各种屏幕尺寸选择不同的布局。<br>很多应用会在较大的屏幕上实施“双面板”模式，即在一个面板上显示项目列表，而在另一面板上显示对应内容。平板电脑和电视的屏幕已经大到可以同时容纳这两个面板了，但手机屏幕就需要分别显示。因此，我们可以使用以下文件以便实施这些布局：<br>res&#x2F;layout&#x2F;main.xml，单面板（默认）布局：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:orientation=&quot;vertical&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;layout-large&#x2F;main.xml，双面板布局：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;400dp&quot;</span><br><span class="line">android:layout_marginRight=&quot;10dp&quot;/&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/article&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.ArticleFragment&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>请注意第二种布局名称目录中的 large 限定符。系统会在属于较大屏幕（例如 7 英寸或更大的平板电脑）的设备上选择此布局。系统会在较小的屏幕上选择其他布局（无限定符）。</p>
+<h4 id="使用最小宽度限定符"><a href="#使用最小宽度限定符" class="headerlink" title="使用最小宽度限定符"></a>使用最小宽度限定符</h4><p>在版本低于 3.2 的 Android 设备上，开发人员遇到的问题之一是“较大”屏幕的尺寸范围，该问题会影响戴尔 Streak、早期的 Galaxy Tab 以及大部分 7 英寸平板电脑。即使这些设备的屏幕属于“较大”的尺寸，但很多应用可能会针对此类别中的各种设备显示不同的布局（“较大”的概念不清晰导致的）。这就是 Android 3.2 版在引入其他限定符的同时引入“最小宽度”限定符的原因。<br>最小宽度限定符可让您通过指定某个最小宽度（以 dp 为单位）来定位屏幕。例如，标准 7 英寸平板电脑的最小宽度为 600 dp，因此如果您要在此类屏幕上的用户界面中使用双面板（但在较小的屏幕上只显示列表），您可以使用上文中所述的单面板和双面板这两种布局，但您应使用 sw600dp 指明双面板布局仅适用于最小宽度为 600 dp 的屏幕，而不是使用 large 尺寸限定符。<br>res&#x2F;layout&#x2F;main.xml，单面板（默认）布局：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:orientation=&quot;vertical&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;layout-sw600dp&#x2F;main.xml，双面板布局：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;400dp&quot;</span><br><span class="line">android:layout_marginRight=&quot;10dp&quot;/&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/article&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.ArticleFragment&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>也就是说，对于最小宽度大于等于 600 dp 的设备，系统会选择 layout-sw600dp&#x2F;main.xml（双面板）布局，否则系统就会选择 layout&#x2F;main.xml（单面板）布局。<br>但 Android 版本低于 3.2 的设备不支持此技术，原因是这些设备无法将 sw600dp 识别为尺寸限定符，因此我们仍需使用 large 限定符。这样一来，就会有一个名称为 res&#x2F;layout-large&#x2F;main.xml 的文件（与 res&#x2F;layout-sw600dp&#x2F;main.xml 一样）。但是没有太大关系，我们将马上学习如何避免此类布局文件出现的重复。</p>
+<h4 id="使用布局别名"><a href="#使用布局别名" class="headerlink" title="使用布局别名"></a>使用布局别名</h4><p>最小宽度限定符仅适用于 Android 3.2 及更高版本。因此，如果我们仍需使用与较低版本兼容的概括尺寸范围（小、正常、大和特大）。例如，如果要将用户界面设计成在手机上显示单面板，但在 7 英寸平板电脑、电视和其他较大的设备上显示多面板，那么我们就需要提供以下文件：</p>
+<ul>
+<li>res&#x2F;layout&#x2F;main.xml: 单面板布局</li>
+<li>res&#x2F;layout-large: 多面板布局</li>
+<li>res&#x2F;layout-sw600dp: 多面板布局</li>
+</ul>
+<p>后两个文件是相同的，因为其中一个用于和 Android 3.2 设备匹配，而另一个则是为使用较低版本 Android 的平板电脑和电视准备的。<br>要避免平板电脑和电视的文件出现重复（以及由此带来的维护问题），您可以使用别名文件。例如，您可以定义以下布局：</p>
+<ul>
+<li>res&#x2F;layout&#x2F;main.xml，单面板布局</li>
+<li>res&#x2F;layout&#x2F;main_twopanes.xml，双面板布局</li>
+</ul>
+<p>然后添加这两个文件：<br>res&#x2F;values-large&#x2F;layout.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main&quot; type=&quot;layout&quot;&gt;@layout/main_twopanes&lt;/item&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;values-sw600dp&#x2F;layout.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main&quot; type=&quot;layout&quot;&gt;@layout/main_twopanes&lt;/item&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>后两个文件的内容相同，但它们并未实际定义布局。它们只是将 main 设置成了 main_twopanes 的别名。由于这些文件包含 large 和 sw600dp 选择器，因此无论 Android 版本如何，系统都会将这些文件应用到平板电脑和电视上（版本低于 3.2 的平板电脑和电视会匹配 large，版本高于 3.2 的平板电脑和电视则会匹配 sw600dp）。</p>
+<h4 id="使用屏幕方向限定符"><a href="#使用屏幕方向限定符" class="headerlink" title="使用屏幕方向限定符"></a>使用屏幕方向限定符</h4><p>某些布局会同时支持横向模式和纵向模式，但我们可以通过调整优化其中大部分布局的效果。在新闻阅读器示例应用中，每种屏幕尺寸和屏幕方向下的布局行为方式如下所示：</p>
+<ul>
+<li>小屏幕，纵向：单面板，带徽标</li>
+<li>小屏幕，横向：单面板，带徽标</li>
+<li>7 英寸平板电脑，纵向：单面板，带操作栏</li>
+<li>7 英寸平板电脑，横向：双面板，宽，带操作栏</li>
+<li>10 英寸平板电脑，纵向：双面板，窄，带操作栏</li>
+<li>10 英寸平板电脑，横向：双面板，宽，带操作栏</li>
+<li>电视，横向：双面板，宽，带操作栏</li>
+</ul>
+<p>因此，这些布局中的每一种都定义在了 res&#x2F;layout&#x2F; 目录下的某个 XML 文件中。为了继续将每个布局分配给各种屏幕配置，该应用会使用布局别名将两者相匹配：<br>res&#x2F;layout&#x2F;onepane.xml:(单面板)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:orientation=&quot;vertical&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;layout&#x2F;onepane_with_bar.xml:(单面板带操作栏)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:orientation=&quot;vertical&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line">&lt;LinearLayout android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:id=&quot;@+id/linearLayout1&quot;  </span><br><span class="line">android:gravity=&quot;center&quot;</span><br><span class="line">android:layout_height=&quot;50dp&quot;&gt;</span><br><span class="line">&lt;ImageView android:id=&quot;@+id/imageView1&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:src=&quot;@drawable/logo&quot;</span><br><span class="line">android:paddingRight=&quot;30dp&quot;</span><br><span class="line">android:layout_gravity=&quot;left&quot;</span><br><span class="line">android:layout_weight=&quot;0&quot; /&gt;</span><br><span class="line">&lt;View android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:id=&quot;@+id/view1&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_weight=&quot;1&quot; /&gt;</span><br><span class="line">&lt;Button android:id=&quot;@+id/categorybutton&quot;</span><br><span class="line">android:background=&quot;@drawable/button_bg&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">android:layout_weight=&quot;0&quot;</span><br><span class="line">android:layout_width=&quot;120dp&quot;</span><br><span class="line">style=&quot;@style/CategoryButtonStyle&quot;/&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;layout&#x2F;twopanes.xml:(双面板，宽布局)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;400dp&quot;</span><br><span class="line">android:layout_marginRight=&quot;10dp&quot;/&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/article&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.ArticleFragment&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;layout&#x2F;twopanes_narrow.xml:(双面板，窄布局)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/headlines&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.HeadlinesFragment&quot;</span><br><span class="line">android:layout_width=&quot;200dp&quot;</span><br><span class="line">android:layout_marginRight=&quot;10dp&quot;/&gt;</span><br><span class="line">&lt;fragment android:id=&quot;@+id/article&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">android:name=&quot;com.example.android.newsreader.ArticleFragment&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>既然我们已定义了所有可能的布局，那就只需使用配置限定符将正确的布局映射到各种配置即可。<br>现在只需使用布局别名技术即可做到这一点：<br>res&#x2F;values&#x2F;layouts.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main_layout&quot; type=&quot;layout&quot;&gt;@layout/onepane_with_bar&lt;/item&gt;</span><br><span class="line">&lt;bool name=&quot;has_two_panes&quot;&gt;false&lt;/bool&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;values-sw600dp-land&#x2F;layouts.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main_layout&quot; type=&quot;layout&quot;&gt;@layout/twopanes&lt;/item&gt;</span><br><span class="line">&lt;bool name=&quot;has_two_panes&quot;&gt;true&lt;/bool&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;values-sw600dp-port&#x2F;layouts.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main_layout&quot; type=&quot;layout&quot;&gt;@layout/onepane&lt;/item&gt;</span><br><span class="line">&lt;bool name=&quot;has_two_panes&quot;&gt;false&lt;/bool&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;values-large-land&#x2F;layouts.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main_layout&quot; type=&quot;layout&quot;&gt;@layout/twopanes&lt;/item&gt;</span><br><span class="line">&lt;bool name=&quot;has_two_panes&quot;&gt;true&lt;/bool&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<p>res&#x2F;values-large-port&#x2F;layouts.xml:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;item name=&quot;main_layout&quot; type=&quot;layout&quot;&gt;@layout/twopanes_narrow&lt;/item&gt;</span><br><span class="line">&lt;bool name=&quot;has_two_panes&quot;&gt;true&lt;/bool&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="使用自动拉伸位图-9图"><a href="#使用自动拉伸位图-9图" class="headerlink" title="使用自动拉伸位图(.9图)"></a>使用自动拉伸位图(.9图)</h2><p>在Android的设计过程中，为了适配不同的手机分辨率，图片大多需要拉伸或者压缩，这样就出现了可以任意调整大小的一种图片格式“.9.png”。<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/lastwarmth/article/details/49991445">详细教程请参考这篇文章</a>。</p>
+<h2 id="支持各种屏幕密度"><a href="#支持各种屏幕密度" class="headerlink" title="支持各种屏幕密度"></a>支持各种屏幕密度</h2><h4 id="使用密度无关像素"><a href="#使用密度无关像素" class="headerlink" title="使用密度无关像素"></a>使用密度无关像素</h4><p>由于各种屏幕的像素密度都有所不同，因此相同数量的像素在不同设备上的实际大小也有所差异，这样使用像素定义布局尺寸就会产生问题。因此，请务必使用 dp 或 sp 单位指定尺寸。<br>例如，请使用 dp（而非 px）指定两个视图间的间距：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;@string/clickme&quot;</span><br><span class="line">android:layout_marginTop=&quot;20dp&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>请务必使用 sp 指定文字大小：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:textSize=&quot;20sp&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>除了介绍这些最基础的知识之外，我们下面再来讨论一下另外一个问题。<br>经过上面的介绍，我们都清楚，为了能够规避不同像素密度的陷阱，Google推荐使用dp来代替px作为控件长度的度量单位，但是我们来看下面的一个场景。<br>假如我们以Nexus5作为书写代码时查看效果的测试机型，Nexus5的总宽度为360dp，我们现在需要在水平方向上放置两个按钮，一个是150dp左对齐，另外一个是200dp右对齐，最后中间留有10dp间隔。<br>但是如果在Nexus S或者是Nexus One运行，两个按钮就发生了重叠。我们都已经用了dp了，为什么会出现这种情况呢？<br>虽然说dp可以去除不同像素密度的问题，使得1dp在不同像素密度上面的物理长度基本相同(如果xdpi，ydpi与densityDpi不一样，则物理长度会有偏差)，但是还是由于Android屏幕设备的多样性，如果使用dp来作为度量单位，并不是所有的屏幕的宽度都是相同的dp长度，比如说，Nexus S和Nexus One属于hdpi，屏幕宽度是320dp，而Nexus 5属于xxhdpi，屏幕宽度是360dp，Galaxy Nexus属于xhdpi，屏幕宽度是384dp，Nexus 6 属于xxxhdpi，屏幕宽度是410dp。所以说，光Google自己一家的产品就已经有这么多的标准，而且屏幕宽度和像素密度没有任何关联关系，即使我们使用dp，在320dp宽度的设备和410dp的设备上，还是会有90dp的差别。<br>所以总结的结果是，<strong>我们要尽量使用match_parent和wrap_content，尽可能少的用dp来指定控件的具体长宽，再结合上权重，大部分的情况我们都是可以做到适配的。</strong>如果遇到上述情况的话，这里有一种方法就是，我们假设手机屏幕的宽度都是320某单位，那么我们将一个屏幕宽度的总像素数平均分成320份，每一份对应具体的像素就可以了。<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/lmj623565791/article/details/45460089">具体介绍可以参考这篇文章。</a></p>
+<h4 id="提供备用位图"><a href="#提供备用位图" class="headerlink" title="提供备用位图"></a>提供备用位图</h4><p>由于 Android 可在具有各种屏幕密度的设备上运行，因此我们提供的位图资源应始终可以满足各类普遍密度范围的要求：低密度、中等密度、高密度以及超高密度。这将有助于我们的图片在所有屏幕密度上都能得到出色的质量和效果。<br>要生成这些图片，我们应先提取矢量格式的原始资源，然后根据以下尺寸范围针对各密度生成相应的图片。</p>
+<ul>
+<li>xhdpi：2.0</li>
+<li>hdpi：1.5</li>
+<li>mdpi：1.0（最低要求）</li>
+<li>ldpi：0.75</li>
+</ul>
+<p>也就是说，如果我们为 xhdpi 设备生成了 200x200 px尺寸的图片，就应该使用同一资源为 hdpi、mdpi 和 ldpi 设备分别生成 150x150、100x100 和 75x75 尺寸的图片。然后，将生成的图片文件放在 res&#x2F; 下的相应子目录中(mdpi、hdpi、xhdpi、xxhdpi)，系统就会根据运行您应用的设备的屏幕密度自动选择合适的图片。</p>
+<blockquote>
+<p><strong>注意：</strong><br>实际开发的过程中，通常都会做三套配图，对应着drawable-hdpi、drawable-xhdpi、drawable-xxhdpi三个文件夹。当然时间赶的话，做一套也是可以的。具体可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650235875&idx=1&sn=add1f85f961b2e70164900cc287b1e66&scene=38#wechat_redirect">王月半子的文章</a>和<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.imooc.com/article/7265">慕课网的这篇文章</a>。对于慕课网的这篇，其中对资源的加载策略做了详细的讲解，值得一看，同时，慕课网一文所提及的资源加载策略同样适用于values文件夹。对于王月半子的文章中有提及过mipmap和drawable的区别，我在此基础上的总结是APP的桌面图标坚决用mipmap-[<em>]dpi，其它的资源除所提及的必须放在drawable文件夹中的外，google并没有给出明确的指示，所以放mipmap-[</em>]dpi中和drawable-[*]dpi都可以。最后还需要注意的一点是，如果有的手机尺寸比较奇葩，可以试试w<n>dp限定符，还是不行的话，就建议动态设置了。</n></p>
+</blockquote>
+<p>这样一来，只要我们引用 @drawable&#x2F;id，系统都能根据相应屏幕的 dpi 选取合适的位图。还记得我们上面提到的图标设计尺寸吗？和这个其实是一个意思。但是还有个问题需要注意下，<strong>如果是.9图或者是不需要多个分辨率的图片，就放在drawable文件夹即可。</strong></p>
+<blockquote>
+<p>drawable对应的dpi是160dpi，相当于drawable-mdpi，但是不会作为一个特定dpi的文件夹使用。它的作用是存放一些xml文件、.9图以及一些不需要适配多个分辨率的图片。</p>
+</blockquote>
+<h2 id="Android-8-0-图标适配"><a href="#Android-8-0-图标适配" class="headerlink" title="Android 8.0 图标适配"></a>Android 8.0 图标适配</h2><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/CheacK66/article/details/81541632">参考链接&gt;&gt;</a></p>
+<h1 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h1><h2 id="关于高清设计图尺寸"><a href="#关于高清设计图尺寸" class="headerlink" title="关于高清设计图尺寸"></a>关于高清设计图尺寸</h2><p>Google官方给出的高清设计图尺寸有两种方案，一种是以mdpi设计，然后对应放大得到更高分辨率的图片，另外一种则是以高分辨率作为设计大小，然后按照倍数对应缩小到小分辨率的图片。<br>根据经验，我更推荐第二种方法，因为小分辨率在生成高分辨率图片的时候，会出现像素丢失，我不知道是不是有方法可以阻止这种情况发生。<br>而分辨率可以以1280*720或者是1960*1080作为主要分辨率进行设计。这里有一篇关于<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.25xt.com/android">UI设计的规范说明</a>,UI设计时可以参考。</p>
+<h2 id="ImageView的ScaleType属性"><a href="#ImageView的ScaleType属性" class="headerlink" title="ImageView的ScaleType属性"></a>ImageView的ScaleType属性</h2><p>设置不同的ScaleType会得到不同的显示效果，一般情况下，设置为centerCrop能获得较好的适配效果。</p>
+<h2 id="动态设置"><a href="#动态设置" class="headerlink" title="动态设置"></a>动态设置</h2><p>有一些情况下，我们需要动态的设置控件大小或者是位置，比如说popwindow的显示位置和偏移量等，这个时候我们可以动态的获取当前的屏幕属性，然后设置合适的数值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class ScreenSizeUtil &#123;</span><br><span class="line"></span><br><span class="line">public static int getScreenWidth(Activity activity) &#123;</span><br><span class="line">return activity.getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static int getScreenHeight(Activity activity) &#123;</span><br><span class="line">return activity.getWindowManager().getDefaultDisplay().getHeight();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>参考资料</strong><br><a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/zhaokaiqiang1992/article/details/45419023">Android屏幕适配全攻略(最权威的官方适配指导)
+</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android自定义View详细教程
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android中退出APP的解决方案</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            John Doe &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

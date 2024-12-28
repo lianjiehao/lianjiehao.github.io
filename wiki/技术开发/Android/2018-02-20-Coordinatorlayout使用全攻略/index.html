@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Coordinatorlayout使用全攻略 | Hexo</title>
+    
+    
+        <meta name="keywords" content="View">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="1.自定义Behavior基础概念其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coordinatorlayout使用全攻略">
+<meta property="og:url" content="http://example.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.自定义Behavior基础概念其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-01-20T15:21:56.000Z">
+<meta property="article:modified_time" content="2024-12-24T14:15:20.963Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="View">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Hexo</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">七夕前，我认识了NDK</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file active"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究（一）：添加头尾布局</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/Android/2018-02-20-Coordinatorlayout使用全攻略" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/View/" rel="tag">View</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">
+            <time datetime="2018-01-20T15:21:56.000Z" itemprop="datePublished">2018-01-20</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Coordinatorlayout使用全攻略
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h2 id="1-自定义Behavior"><a href="#1-自定义Behavior" class="headerlink" title="1.自定义Behavior"></a>1.自定义Behavior</h2><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><p>其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。<br>在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。<span id="more"></span><br><strong>Button与TextView的爱恨情仇</strong><br>首先在布局文件中跟布局设置为CoordinatorLayout，里面放一个Button和一个TextView。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;android.support.design.widget.CoordinatorLayout    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">&gt;</span><br><span class="line">&lt;TextView     </span><br><span class="line">app:layout_behavior=&quot;.EasyBehavior&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;观察者View child&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;Button     </span><br><span class="line">android:id=&quot;@+id/btn&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;center&quot;</span><br><span class="line">android:text=&quot;被观察View dependency&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>这里我们在Activity中做一些手脚，让Button动起来(不要在意坐标这些细节)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">super.onCreate(savedInstanceState);</span><br><span class="line">setContentView(R.layout.activity_easy_behavior);</span><br><span class="line">findViewById(R.id.btn).setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">@Override public boolean onTouch(View v, MotionEvent event) &#123;        switch (event.getAction())&#123;          case MotionEvent.ACTION_MOVE:</span><br><span class="line">v.setX(event.getRawX()-v.getWidth()/2);</span><br><span class="line">v.setY(event.getRawY()-v.getHeight()/2);            break;</span><br><span class="line">&#125;        return false;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，Button已经可以跟随手指移动了。<br>现在去自定义一个Behavior让TextView跟随Button一起动！<br>创建一个EasyBehavior类，继承于Behavior</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class EasyBehavior extends CoordinatorLayout.Behavior&lt;TextView&gt; &#123;//这里的泛型是child的类型，也就是观察者View</span><br><span class="line">public EasyBehavior(Context context, AttributeSet attrs) &#123;</span><br><span class="line">super(context, attrs);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override  public boolean layoutDependsOn(CoordinatorLayout parent, TextView child, View dependency) &#123;    //告知监听的dependency是Button</span><br><span class="line">return dependency instanceof Button;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override  //当 dependency(Button)变化的时候，可以对child(TextView)进行操作</span><br><span class="line">public boolean onDependentViewChanged(CoordinatorLayout parent, TextView child, View dependency) &#123;</span><br><span class="line">child.setX(dependency.getX()+200);</span><br><span class="line">child.setY(dependency.getY()+200);</span><br><span class="line">child.setText(dependency.getX()+&quot;,&quot;+dependency.getY());    return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意两个方法<br>layoutDependsOn() 代表寻找被观察View<br>onDependentViewChanged() 被观察View变化的时候回调用的方法<br>在onDependentViewChanged中，我们让TextView跟随Button的移动而移动。代码比较简单，一看就懂。<br><strong>Tip</strong><br>必须重写带双参的构造器，因为从xml反射需要调用。<br>接下来，在xml中，给TextView设置我们的Behavior。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView      </span><br><span class="line">app:layout_behavior=&quot;.EasyBehavior&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;观察者View child&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>运行效果如下：</p>
+
+<h2 id="2-CoordinatorLayout使用"><a href="#2-CoordinatorLayout使用" class="headerlink" title="2.CoordinatorLayout使用"></a>2.CoordinatorLayout使用</h2><p>CoordinatorLayout是谷歌提供的Material Design许多功能的基础，使用它你可以轻松地实现许多动画效果。这些效果包括：<br>1.滑动Floating Action Button为SnackBar的弹起提供空间。</p>
+
+<p>2.展开或者收起Toolbar为屏幕的主内容提供空间。</p>
+
+<p>3.控制某个应该被收起或展开的View以一定地视差效果完成动作，包括parallax scrolling effects 动画。</p>
+
+<h4 id="Floating-Action-Buttons-和-Snackbars"><a href="#Floating-Action-Buttons-和-Snackbars" class="headerlink" title="Floating Action Buttons 和 Snackbars"></a>Floating Action Buttons 和 Snackbars</h4><p><code>FloatingActionButton</code>可以通过layout_anchor和layout_anchorGravity来控制显示的位置。当我们将其显示到屏幕的底端时，它会自动响应SnackBar的弹起或收起：SnackBar弹起后FloatingActionButton也弹起SnackBar的高度，收起后FloatingActionButton也收起。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout</span><br><span class="line">android:id=&quot;@+id/main_content&quot;</span><br><span class="line">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">android:id=&quot;@+id/rvToDoList&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.design.widget.FloatingActionButton</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;bottom|right&quot;</span><br><span class="line">android:layout_margin=&quot;16dp&quot;</span><br><span class="line">android:src=&quot;@mipmap/ic_launcher&quot;</span><br><span class="line">app:layout_anchor=&quot;@id/rvToDoList&quot;</span><br><span class="line">app:layout_anchorGravity=&quot;bottom|right|end&quot;/&gt;</span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Expanding-和-Collapsing-Toolbars"><a href="#Expanding-和-Collapsing-Toolbars" class="headerlink" title="Expanding 和 Collapsing Toolbars"></a>Expanding 和 Collapsing Toolbars</h4><p>1.确保CoordinatorLayout是主容器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">android:id=&quot;@+id/main_content&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>2.为了响应滑动事件，我们必须使用AppBarLayout:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout</span><br><span class="line">android:id=&quot;@+id/appbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;@dimen/detail_backdrop_height&quot;</span><br><span class="line">android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>为了让滑动的View始终在AppBarLayout的下面，需要为滑动的View定义<code>layout_behavior</code>为@string&#x2F;appbar_scrolling_view_behavior。我们还可以通过<code>app:layout_scrollFlags</code>控制AppBarLayout中的子View响应RecycleView的滑动。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;</span><br><span class="line">android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:layout_scrollFlags=&quot;scroll|enterAlways&quot;/&gt;</span><br><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">android:id=&quot;@+id/rvToDoList&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;/&gt;</span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>关于layout_scrollFlags的值这里解释一下：</p>
+<ol>
+<li>scroll - 想滚动就必须设置这个。</li>
+<li>enterAlways - 实现quick return效果, 当向下移动时，立即显示View（比如Toolbar)。</li>
+<li>exitUntilCollapsed - 向上滚动时收缩View，但可以固定Toolbar一直在上面(可通过minHeight设置)。</li>
+<li>enterAlwaysCollapsed - 当你的View已经设置minHeight属性又使用此标志时，你的View只能以最小高度进入，只有当滚动视图到达顶部时才扩大到完整高度。</li>
+<li>snap - 如果头部滑动操作超过50%的距离，则自动关闭。如果头部滑动操作不超过50%的距离，则不关闭。</li>
+</ol>
+<h4 id="创建折叠效果"><a href="#创建折叠效果" class="headerlink" title="创建折叠效果"></a>创建折叠效果</h4><p>CollapsingToolbarLayout作用是提供了一个可以折叠的Toolbar，它继承至FrameLayout，给它设置layout_scrollFlags，它可以控制包含在CollapsingToolbarLayout中的控件(如：ImageView、Toolbar)在响应layout_behavior事件时作出相应的scrollFlags滚动事件(移除屏幕或固定在屏幕顶端)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;256dp&quot;  </span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;  </span><br><span class="line">&lt;android.support.design.widget.CollapsingToolbarLayout  </span><br><span class="line">android:id=&quot;@+id/collapsing_toolbar_layout&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;  </span><br><span class="line">app:contentScrim=&quot;#30469b&quot;  </span><br><span class="line">app:expandedTitleMarginStart=&quot;48dp&quot;  </span><br><span class="line">app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;&gt;  </span><br><span class="line"></span><br><span class="line">&lt;ImageView  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;  </span><br><span class="line">android:scaleType=&quot;centerCrop&quot;  </span><br><span class="line">android:src=&quot;@mipmap/bg&quot;  </span><br><span class="line">app:layout_collapseMode=&quot;parallax&quot;  </span><br><span class="line">app:layout_collapseParallaxMultiplier=&quot;0.7&quot;  /&gt;  </span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar  </span><br><span class="line">android:id=&quot;@+id/toolbar&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;  </span><br><span class="line">app:layout_collapseMode=&quot;pin&quot; /&gt;  </span><br><span class="line">&lt;/android.support.design.widget.CollapsingToolbarLayout&gt;  </span><br><span class="line">&lt;android.support.v7.widget.RecyclerView  </span><br><span class="line">android:id=&quot;@+id/recyclerView&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;</span><br><span class="line">android:scrollbars=&quot;none&quot; /&gt;  </span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt; </span><br></pre></td></tr></table></figure>
+<p>1、在CollapsingToolbarLayout中设置了一个ImageView和一个Toolbar。并把这个CollapsingToolbarLayout放到AppBarLayout中作为一个整体。<br>在CollapsingToolbarLayout中，我们除了设置layout_scrollFlags，还可以设置一些其它的属性，简要说明一下：</p>
+<ul>
+<li>contentScrim - 设置当完全CollapsingToolbarLayout折叠(收缩)后的背景颜色。</li>
+<li>expandedTitleMarginStart - 设置扩张时候(还没有收缩时)title向左填充的距离。</li>
+</ul>
+<p>没扩张时候如图：</p>
+
+<p>2、在ImageView控件中：<br>我们设置了layout_collapseMode (折叠模式) - 有两个值:</p>
+<ul>
+<li>pin -  设置为这个模式时，当CollapsingToolbarLayout完全收缩后，Toolbar还可以保留在屏幕上。</li>
+<li>parallax - 设置为这个模式时，在内容滚动时，CollapsingToolbarLayout中的View（比如ImageView)也可以同时滚动，实现视差滚动效果，通常和layout_collapseParallaxMultiplier(设置视差因子)搭配使用。</li>
+<li>layout_collapseParallaxMultiplier(视差因子) - 设置视差滚动因子，值为：0~1。</li>
+</ul>
+<p>3、在Toolbar控件中，我们设置了layout_collapseMode(折叠模式)为pin。<br>效果如图:</p>
+
+<p>综上分析：当设置了layout_behavior的控件响应起了CollapsingToolbarLayout中的layout_scrollFlags事件时，ImageView会有视差效果的向上滚动移除屏幕，当开始折叠时CollapsingToolbarLayout的背景色(也就是Toolbar的背景色)就会变为我们设置好的背景色，Toolbar也一直会固定在最顶端。</p>
+<blockquote>
+<p><strong>注意：</strong><br>使用CollapsingToolbarLayout时必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上不会显示。即：mCollapsingToolbarLayout.setTitle(“ “);</p>
+</blockquote>
+<h4 id="Bottom-Sheet"><a href="#Bottom-Sheet" class="headerlink" title="Bottom Sheet"></a>Bottom Sheet</h4><p>有两种类型的<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0327/7729.html">Bottom Sheet</a>：<br>1.**Persistent bottom sheet :**通常用于显示主界面之外的额外信息，它是主界面的一部分，只不过默认被隐藏了，其深度（elevation）跟主界面处于同一级别；还有一个重要特点是在Persistent bottom sheet打开的时候，主界面仍然是可以操作的。ps：Persistent bottom sheet该如何翻译呢？我觉得翻译为普通bottom sheet就好了，还看到有人翻译为“常驻bottom sheet”，可能更接近于英语的字面意思，可是反而不易理解。</p>
+
+<p>2.**模态bottom sheet :**顾名思义，模态的bottom sheet在打开的时候会阻止和主界面的交互，并且在视觉上会在bottom sheet背后加一层半透明的阴影，使得看上去深度（elevation）更深。<br>总结起来这两种Bottom Sheet的区别主要在于视觉和交互上，当然使用方法也是不一样的。</p>
+
+
+<hr>
+<p><strong>参考资料</strong><br><a target="_blank" rel="external nofollow noopener noreferrer" href="https://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout#troubleshooting-coordinated-layouts">CoordinatorLayout介绍</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android图片压缩方略
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Git使用规则补充</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            John Doe &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

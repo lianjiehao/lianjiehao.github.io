@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Rxjava2线程调度原理 | Hexo</title>
+    
+    
+        <meta name="keywords" content="Rxjava2">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2线程调度原理">
+<meta property="og:url" content="http://example.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-19T09:13:30.000Z">
+<meta property="article:modified_time" content="2024-12-24T14:15:20.964Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Rxjava2">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Hexo</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">七夕前，我认识了NDK</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究（一）：添加头尾布局</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file active"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-技术开发/Android/2020-08-19-Rxjava2研究指南" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Rxjava2/" rel="tag">Rxjava2</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">
+            <time datetime="2020-01-19T09:13:30.000Z" itemprop="datePublished">2020-01-19</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Rxjava2线程调度原理
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <p>这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。</p>
+<span id="more"></span>
+<p>我们来看这样一个例子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+<p>输出结果是:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[main,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure>
+<p>可以看到，位于 observeOn 上游的生产者( map )没有切换线程，而下游的消费者( SingleObserver )切换了线程。</p>
+<p>再来看一个案例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>我们只是把 observeOn 改成了 subscribeOn 方法，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[RxCachedThreadScheduler-1,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure>
+<p>结论是 subscribeOn 上游下游的生产者和消费者都切换了线程。</p>
+<p>下面我们从源码的角度分析产生上面不同情况的原因。</p>
+<h2 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public final Single&lt;T&gt; observeOn(final Scheduler scheduler) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(scheduler, &quot;scheduler is null&quot;);</span><br><span class="line">        return RxJavaPlugins.onAssembly(new SingleObserveOn&lt;T&gt;(this, scheduler));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>代码中的 this 指的是上游的 SingleMap ，scheduler 就是传入 observeOn 的参数，这里就是 Schedulers.io() 。</p>
+<blockquote>
+<p>现在只需要把 Schedulers.io() 理解成是一个切换线程的工具，之后再详细分析它。</p>
+</blockquote>
+<p>RxJavaPlugins.onAssembly 是钩子方法，可以直接把它的参数理解为返回值。接下来，看下 SingleObserveOn 类的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">public final class SingleObserveOn&lt;T&gt; extends Single&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    final SingleSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    public SingleObserveOn(SingleSource&lt;T&gt; source, Scheduler scheduler) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">        this.scheduler = scheduler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(final SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        source.subscribe(new ObserveOnSingleObserver&lt;T&gt;(observer, scheduler));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class ObserveOnSingleObserver&lt;T&gt; extends AtomicReference&lt;Disposable&gt;</span><br><span class="line">    implements SingleObserver&lt;T&gt;, Disposable, Runnable &#123;</span><br><span class="line">        private static final long serialVersionUID = 3528003840217436037L;</span><br><span class="line"></span><br><span class="line">        final SingleObserver&lt;? super T&gt; downstream;</span><br><span class="line"></span><br><span class="line">        final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">        T value;</span><br><span class="line">        Throwable error;</span><br><span class="line"></span><br><span class="line">        ObserveOnSingleObserver(SingleObserver&lt;? super T&gt; actual, Scheduler scheduler) &#123;</span><br><span class="line">            this.downstream = actual;</span><br><span class="line">            this.scheduler = scheduler;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSubscribe(Disposable d) &#123;</span><br><span class="line">            if (DisposableHelper.setOnce(this, d)) &#123;</span><br><span class="line">                downstream.onSubscribe(this);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable e) &#123;</span><br><span class="line">            this.error = e;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Throwable ex = error;</span><br><span class="line">            if (ex != null) &#123;</span><br><span class="line">                downstream.onError(ex);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                downstream.onSuccess(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            DisposableHelper.dispose(this);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return DisposableHelper.isDisposed(get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类中的 source 即为上游的 SingleMap 对象，scheduler 就是 Schedulers.io()。由第一个案例可知，调用了 observeOn 后在返回结果的基础上调用了 subscribe 方法，而这个 subscribe 方法在父类 Single 中的实现中调用了子类的 subscribeActual 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Single&lt;T&gt; implements SingleSource&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@SchedulerSupport(SchedulerSupport.NONE)</span><br><span class="line">    @Override</span><br><span class="line">    public final void subscribe(SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(observer, &quot;subscriber is null&quot;);</span><br><span class="line"></span><br><span class="line">        observer = RxJavaPlugins.onSubscribe(this, observer);</span><br><span class="line"></span><br><span class="line">        ObjectHelper.requireNonNull(observer, &quot;The RxJavaPlugins.onSubscribe hook returned a null SingleObserver. Please check the handler provided to RxJavaPlugins.setOnSingleSubscribe for invalid null returns. Further reading: https://github.com/ReactiveX/RxJava/wiki/Plugins&quot;);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            subscribeActual(observer);</span><br><span class="line">        &#125; catch (NullPointerException ex) &#123;</span><br><span class="line">            throw ex;</span><br><span class="line">        &#125; catch (Throwable ex) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(ex);</span><br><span class="line">            NullPointerException npe = new NullPointerException(&quot;subscribeActual failed&quot;);</span><br><span class="line">            npe.initCause(ex);</span><br><span class="line">            throw npe;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当前的子类就是 SingleObserveOn 类，该类的 subscribeActual 方法中调用了上游 SingleMap 对象的 subscribe 方法，并把 ObserveOnSingleObserver 传给了上游。最终，依次调用了 SingleMap 中 MapSingleObserver 相关方法以及 SingleObserveOn 中 ObserveOnSingleObserver 相关方法。这里以 ObserveOnSingleObserver 中的 onSuccess 方法调用为例，代码实现如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>这里首先将 value 赋值给当前实例，之后调用了 scheduler.scheduleDirect 方法切换线程，在切换线程后执行了 ObserveOnSingleObserver 的 run 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Throwable ex = error;</span><br><span class="line">            if (ex != null) &#123;</span><br><span class="line">                downstream.onError(ex);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                downstream.onSuccess(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>downstream 就是下游的消费者。</p>
+<p>所以这里可以得出结论，位于上游的逻辑（ SingleMap 中 MapSingleObserver 相关方法）在原线程中执行，位于下游的消费者（ SingleObserver ）逻辑执行在切换后的线程中。</p>
+<h1 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h1><p>和 observeOn 类似，所以直接分析对应的 SingleSubscribeOn 类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public final class SingleSubscribeOn&lt;T&gt; extends Single&lt;T&gt; &#123;</span><br><span class="line">    final SingleSource&lt;? extends T&gt; source;</span><br><span class="line"></span><br><span class="line">    final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    public SingleSubscribeOn(SingleSource&lt;? extends T&gt; source, Scheduler scheduler) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">        this.scheduler = scheduler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(final SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        final SubscribeOnObserver&lt;T&gt; parent = new SubscribeOnObserver&lt;T&gt;(observer, source);</span><br><span class="line">        observer.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">        Disposable f = scheduler.scheduleDirect(parent);</span><br><span class="line"></span><br><span class="line">        parent.task.replace(f);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class SubscribeOnObserver&lt;T&gt;</span><br><span class="line">    extends AtomicReference&lt;Disposable&gt;</span><br><span class="line">    implements SingleObserver&lt;T&gt;, Disposable, Runnable &#123;</span><br><span class="line"></span><br><span class="line">        private static final long serialVersionUID = 7000911171163930287L;</span><br><span class="line"></span><br><span class="line">        final SingleObserver&lt;? super T&gt; downstream;</span><br><span class="line"></span><br><span class="line">        final SequentialDisposable task;</span><br><span class="line"></span><br><span class="line">        final SingleSource&lt;? extends T&gt; source;</span><br><span class="line"></span><br><span class="line">        SubscribeOnObserver(SingleObserver&lt;? super T&gt; actual, SingleSource&lt;? extends T&gt; source) &#123;</span><br><span class="line">            this.downstream = actual;</span><br><span class="line">            this.source = source;</span><br><span class="line">            this.task = new SequentialDisposable();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSubscribe(Disposable d) &#123;</span><br><span class="line">            DisposableHelper.setOnce(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            downstream.onSuccess(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable e) &#123;</span><br><span class="line">            downstream.onError(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            DisposableHelper.dispose(this);</span><br><span class="line">            task.dispose();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return DisposableHelper.isDisposed(get());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            source.subscribe(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当调用 scheduler.scheduleDirect 方法后切换线程，之后执行 SubscribeOnObserver 中的 run 方法调用 <code>source.subscribe(this)</code>，从此刻开始，上游的调用逻辑将在切换后的线程中执行，而上游逻辑之后又会调用 SubscribeOnObserver 中的方法，所以上游生产者（ map ）和下游消费者（ SingleObserver）都会运行在切换后的线程中。</p>
+<p><strong>思考：若 subscribeOn 和 observeOn 同时存在，如何判断各个阶段所运行的线程？</strong></p>
+<p>比如下面的例子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .subscribeOn(Schedulers.newThread())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;3:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[RxNewThreadScheduler-1,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br><span class="line">3:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure>
+<p>结果不理解的话，就按照上面的思路去看下源码吧。</p>
+<h1 id="线程调度器"><a href="#线程调度器" class="headerlink" title="线程调度器"></a>线程调度器</h1><p>上文中频繁出现了 scheduler.scheduleDirect 切线程的语句，下面就来详细说明 Rxjava2 到底是如何切换线程的。</p>
+<p>Rxjava2 常用的线程调度器一共有 4 种：</p>
+<table>
+<thead>
+<tr>
+<th align="left">调度器类型</th>
+<th align="left">效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Schedulers.computation()</td>
+<td align="left">用于计算任务，如事件循环或和回调处理，不要用于IO操作(IO操作请使用Schedulers.io())；默认线程数等于处理器的数量</td>
+</tr>
+<tr>
+<td align="left">Schedulers.newThread()</td>
+<td align="left">为每个任务创建一个新线程</td>
+</tr>
+<tr>
+<td align="left">Schedulers.io()</td>
+<td align="left">用于IO密集型任务，如异步阻塞IO操作，这个调度器的线程池会根据需要增长；对于普通的计算任务，请使用Schedulers.computation()；Schedulers.io( )默认是一个CachedThreadScheduler，很像一个有线程缓存的线程调度器</td>
+</tr>
+<tr>
+<td align="left">AndroidSchedulers.mainThread( )</td>
+<td align="left">主线程，UI线程，可以用于更新界面</td>
+</tr>
+</tbody></table>
+<p>computation、newThread 以及 io 调度器的创建有一个共同特点，就是他们的初始化工作都在 Schedulers 的静态代码块中完成，也就是说他们的实例对象是全局唯一的，Schedulers 中的静态代码块如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">        SINGLE = RxJavaPlugins.initSingleScheduler(new SingleTask());</span><br><span class="line"></span><br><span class="line">        COMPUTATION = RxJavaPlugins.initComputationScheduler(new ComputationTask());</span><br><span class="line"></span><br><span class="line">        IO = RxJavaPlugins.initIoScheduler(new IOTask());</span><br><span class="line"></span><br><span class="line">        TRAMPOLINE = TrampolineScheduler.instance();</span><br><span class="line"></span><br><span class="line">        NEW_THREAD = RxJavaPlugins.initNewThreadScheduler(new NewThreadTask());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Schedulers-newThread"><a href="#Schedulers-newThread" class="headerlink" title="Schedulers.newThread()"></a>Schedulers.newThread()</h2><p>调用 Schedulers.newThread() 得到的实例对象是一个 NewThreadScheduler 对象。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public final class NewThreadScheduler extends Scheduler &#123;</span><br><span class="line"></span><br><span class="line">    final ThreadFactory threadFactory;</span><br><span class="line"></span><br><span class="line">    private static final String THREAD_NAME_PREFIX = &quot;RxNewThreadScheduler&quot;;</span><br><span class="line">    private static final RxThreadFactory THREAD_FACTORY;</span><br><span class="line"></span><br><span class="line">    /** The name of the system property for setting the thread priority for this Scheduler. */</span><br><span class="line">    private static final String KEY_NEWTHREAD_PRIORITY = &quot;rx2.newthread-priority&quot;;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        int priority = Math.max(Thread.MIN_PRIORITY, Math.min(Thread.MAX_PRIORITY,</span><br><span class="line">                Integer.getInteger(KEY_NEWTHREAD_PRIORITY, Thread.NORM_PRIORITY)));</span><br><span class="line"></span><br><span class="line">        THREAD_FACTORY = new RxThreadFactory(THREAD_NAME_PREFIX, priority);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public NewThreadScheduler() &#123;</span><br><span class="line">        this(THREAD_FACTORY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public NewThreadScheduler(ThreadFactory threadFactory) &#123;</span><br><span class="line">        this.threadFactory = threadFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @NonNull</span><br><span class="line">    @Override</span><br><span class="line">    public Worker createWorker() &#123;</span><br><span class="line">        return new NewThreadWorker(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有文章开头两个案例的源码分析可知，在线程发生切换时会调用 <code>scheduler.scheduleDirect</code>语句，该语句最终会执行 Scheduler类 的 scheduleDirect 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public Disposable scheduleDirect(@NonNull Runnable run, long delay, @NonNull TimeUnit unit) &#123;</span><br><span class="line">        final Worker w = createWorker();</span><br><span class="line"></span><br><span class="line">        final Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        DisposeTask task = new DisposeTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">        w.schedule(task, delay, unit);</span><br><span class="line"></span><br><span class="line">        return task;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Scheduler 的 <code>createWorker()</code>方法会调用子类（这里是NewThreadScheduler)的 createWorker 方法创建一个 NewThreadWorker 对象，之后调用到 NewThreadWorker 对象的 schedule 方法，最终调用到 NewThreadWorker对象的 scheduleActual 方法。</p>
+<p><strong>这里可以看出每次切换线程都会创建一个线程池，这块逻辑同时也是几种线程调度之间最大的区别。</strong></p>
+<p>下面我们看一下 NewThreadWorker 类的关键代码实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public class NewThreadWorker extends Scheduler.Worker implements Disposable &#123;</span><br><span class="line">    private final ScheduledExecutorService executor;</span><br><span class="line"></span><br><span class="line">    volatile boolean disposed;</span><br><span class="line"></span><br><span class="line">    public NewThreadWorker(ThreadFactory threadFactory) &#123;</span><br><span class="line">        executor = SchedulerPoolFactory.create(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">    public ScheduledRunnable scheduleActual(final Runnable run, long delayTime, @NonNull TimeUnit unit, @Nullable DisposableContainer parent) &#123;</span><br><span class="line">        Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        ScheduledRunnable sr = new ScheduledRunnable(decoratedRun, parent);</span><br><span class="line"></span><br><span class="line">        if (parent != null) &#123;</span><br><span class="line">            if (!parent.add(sr)) &#123;</span><br><span class="line">                return sr;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Future&lt;?&gt; f;</span><br><span class="line">        try &#123;</span><br><span class="line">            if (delayTime &lt;= 0) &#123;</span><br><span class="line">                f = executor.submit((Callable&lt;Object&gt;)sr);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                f = executor.schedule((Callable&lt;Object&gt;)sr, delayTime, unit);</span><br><span class="line">            &#125;</span><br><span class="line">            sr.setFuture(f);</span><br><span class="line">        &#125; catch (RejectedExecutionException ex) &#123;</span><br><span class="line">            if (parent != null) &#123;</span><br><span class="line">                parent.remove(sr);</span><br><span class="line">            &#125;</span><br><span class="line">            RxJavaPlugins.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return sr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造方法中新建了一个核心线程数是 1 的线程池，具体实现如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ScheduledExecutorService create(ThreadFactory factory) &#123;</span><br><span class="line">        final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, factory);</span><br><span class="line">        tryPutIntoPool(PURGE_ENABLED, exec);</span><br><span class="line">        return exec;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>scheduleActual 方法中通过 <code>executor.submit</code> 或 <code>executor.schedule</code> 实现了线程的切换。</p>
+<h2 id="Schedulers-io"><a href="#Schedulers-io" class="headerlink" title="Schedulers.io()"></a>Schedulers.io()</h2><p>Schedulers.io() 最终生成 IoScheduler 对象，IoScheduler 内部维护了一个 CachedWorkerPool ，CachedWorkerPool 内部维护了一个 expiringWorkerQueue 队列用于保存可用的 ThreadWorker。每次需要 ThreadWorker 时，优先从队列中取，取不到则新建 ThreadWorker。接下来就带领大家看下这个逻辑是怎么实现的。</p>
+<p>下面是 expiringWorkerQueue 添加 ThreadWorker 的场景。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void release(ThreadWorker threadWorker) &#123;</span><br><span class="line">            // Refresh expire time before putting worker back in pool</span><br><span class="line">            threadWorker.setExpirationTime(now() + keepAliveTime);</span><br><span class="line"></span><br><span class="line">            expiringWorkerQueue.offer(threadWorker);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>当调用 IoScheduler 的 dispose 方法时会调用到这个方法，它是 CachedWorkerPool 中的方法，此方法将已使用完成的 threadWorker 加入到 expiringWorkerQueue 队列的尾部以便重用。</p>
+<p>接下来我们看下 threadWorker 的获取。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Worker createWorker() &#123;</span><br><span class="line">         //通过调用 CachedWorkerPool 的 get 方法获取了 threadWorker。</span><br><span class="line">         return new EventLoopWorker(pool.get());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>CachedWorkerPool 的 get 方法定义如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ThreadWorker get() &#123;</span><br><span class="line">            if (allWorkers.isDisposed()) &#123;</span><br><span class="line">                return SHUTDOWN_THREAD_WORKER;</span><br><span class="line">            &#125;</span><br><span class="line">            while (!expiringWorkerQueue.isEmpty()) &#123;</span><br><span class="line">                ThreadWorker threadWorker = expiringWorkerQueue.poll();</span><br><span class="line">                if (threadWorker != null) &#123;</span><br><span class="line">                    return threadWorker;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // No cached worker found, so create a new one.</span><br><span class="line">            ThreadWorker w = new ThreadWorker(threadFactory);</span><br><span class="line">            allWorkers.add(w);</span><br><span class="line">            return w;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>get 方法先通过 expiringWorkerQueue.poll 方法获取 threadWorker 对象，获取不到则新建。</p>
+<p>下面是 ThreadWorker 的定义。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">static final class ThreadWorker extends NewThreadWorker &#123;</span><br><span class="line">        private long expirationTime;</span><br><span class="line"></span><br><span class="line">        ThreadWorker(ThreadFactory threadFactory) &#123;</span><br><span class="line">            super(threadFactory);</span><br><span class="line">            this.expirationTime = 0L;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public long getExpirationTime() &#123;</span><br><span class="line">            return expirationTime;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void setExpirationTime(long expirationTime) &#123;</span><br><span class="line">            this.expirationTime = expirationTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>ThreadWorker 是 NewThreadWorker 的子类，之后的操作和 Schedulers.newThread() 中讲述的一致，这里不再赘述。</p>
+<p><strong>Schedulers.io() 采用了 pool 的方式复用了已使用完成的线程池。</strong></p>
+<h2 id="Schedulers-computation"><a href="#Schedulers-computation" class="headerlink" title="Schedulers.computation()"></a>Schedulers.computation()</h2><p>Schedulers.computation() 会生成一个 ComputationScheduler 对象，ComputationScheduler 类内部维护了一个 FixedSchedulerPool 对象，该对象中维护了一个 PoolWorker 数组（PoolWorker 是 NewThreadWorker 的子类），数组的长度是 CPU 核数，所以 <strong>Schedulers.computation() 会生成一个长度固定为 CPU 核数的线程池数组</strong>。</p>
+<p>数组的长度计算逻辑如下，得到的 MAX_THREADS 就是 CPU 的核数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_THREADS = cap(Runtime.getRuntime().availableProcessors(), Integer.getInteger(KEY_MAX_THREADS, 0));</span><br></pre></td></tr></table></figure>
+<p>再来让我们看看 createWorker 方法的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public Worker createWorker() &#123;</span><br><span class="line">        return new EventLoopWorker(pool.get().getEventLoop());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>pool.get().getEventLoop()</code> 得到了一个 PoolWorker 对象，下面看下 getEventLoop 方法的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public PoolWorker getEventLoop() &#123;</span><br><span class="line">            int c = cores;</span><br><span class="line">            if (c == 0) &#123;</span><br><span class="line">                return SHUTDOWN_WORKER;</span><br><span class="line">            &#125;</span><br><span class="line">            // simple round robin, improvements to come</span><br><span class="line">            return eventLoops[(int)(n++ % c)];</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>这其实就是循环取数组中 PoolWorker 元素的逻辑。</p>
+<h2 id="AndroidSchedulers-mainThread"><a href="#AndroidSchedulers-mainThread" class="headerlink" title="AndroidSchedulers.mainThread()"></a>AndroidSchedulers.mainThread()</h2><p>AndroidSchedulers.mainThread() 最终生成一个 HandlerScheduler 静态对象，HandlerScheduler 的创建和上面几个调度器的创建逻辑不一样，上面几个调度器都是在 Schedulers 的静态代码块中新建的，而 HandlerScheduler 属于 AndroidSchedulers 静态内部类 MainHolder 的一个静态属性，代码如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public final class AndroidSchedulers &#123;</span><br><span class="line"></span><br><span class="line">    private static final class MainHolder &#123;</span><br><span class="line">        static final Scheduler DEFAULT</span><br><span class="line">            = new HandlerScheduler(new Handler(Looper.getMainLooper()), false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调度过程也有不一样，HandlerScheduler 中自己定义了 scheduleDirect 方法，所以发生线程调度后，即 scheduler.scheduleDirect 被调用后，HandlerScheduler 的 scheduleDirect 方法会被直接调用，而不需要执行父类 Scheduler 的 scheduleDirect 方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public Disposable scheduleDirect(Runnable run, long delay, TimeUnit unit) &#123;</span><br><span class="line">        if (run == null) throw new NullPointerException(&quot;run == null&quot;);</span><br><span class="line">        if (unit == null) throw new NullPointerException(&quot;unit == null&quot;);</span><br><span class="line"></span><br><span class="line">        run = RxJavaPlugins.onSchedule(run);</span><br><span class="line">        ScheduledRunnable scheduled = new ScheduledRunnable(handler, run);</span><br><span class="line">        Message message = Message.obtain(handler, scheduled);</span><br><span class="line">        if (async) &#123;</span><br><span class="line">            message.setAsynchronous(true);</span><br><span class="line">        &#125;</span><br><span class="line">        handler.sendMessageDelayed(message, unit.toMillis(delay));</span><br><span class="line">        return scheduled;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>由上面代码可知， Runnable 对象中的 run 方法会在主线程中执行。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇文章重点讲解了 Rxjava2 的线程调度原理，总的来说，学习 Rxjava2 的源码设计思想可以从以下 4 个方面作为切入点：<br>1、Rxjava2 如何实现基于事件流的链式调用。<br>2、线程调度原理。<br>3、map 操作符是如何工作的。<br>4、Rxjava2 是如何取消订阅的。</p>
+<p>对于以上未介绍的切入点，大家可以自行去阅读源码或参考 Hencoder plus 相关课程。</p>
+<blockquote>
+<p><strong>文章写作背景</strong><br>笔者在看了扔物线老师的 Hencoder plus 相关课程后觉得线程调度这块的知识讲解得不完整，后面笔者花了好些时间才梳理清晰，所以记录下这篇文章以免忘记。同时，如果对你也有帮助的话，那就更好了。</p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    《深入浅出 Android 源代码》读后感
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Android/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android 进程间通信机制</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            John Doe &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
