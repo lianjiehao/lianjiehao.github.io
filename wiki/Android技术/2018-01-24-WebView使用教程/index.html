@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    
+    <title>WebView使用教程 | 唐先明de博客</title>
+    
+    
+        <meta name="keywords" content="View">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebView使用教程">
+<meta property="og:url" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-04-21T13:03:15.000Z">
+<meta property="article:modified_time" content="2024-12-30T12:57:56.119Z">
+<meta property="article:author" content="TXM">
+<meta property="article:tag" content="View">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">唐先明de博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android技术
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">认识NDK</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究：添加头尾布局</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file active"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Android技术/2018-01-24-WebView使用教程" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android%E6%8A%80%E6%9C%AF/">Android技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/View/" rel="tag">View</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+            <time datetime="2019-04-21T13:03:15.000Z" itemprop="datePublished">2019-04-21</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            WebView使用教程
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0WebView%E5%88%B0%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">1 添加WebView到你的应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%9C%A8WebView%E4%B8%AD%E4%BD%BF%E7%94%A8JavaScript"><span class="toc-number">2.</span> <span class="toc-text">2 在WebView中使用JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8JavaScript"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 授权使用JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%9C%A8Android%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%BB%91%E5%AE%9AJavaScript%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 在Android代码中绑定JavaScript代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%A1%B5%E9%9D%A2%E5%AF%BC%E8%88%AA"><span class="toc-number">3.</span> <span class="toc-text">3 页面导航</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%AF%BC%E8%88%AAweb%E7%9A%84%E6%B5%8F%E8%A7%88%E8%AE%B0%E5%BD%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 导航web的浏览记录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol> -->
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0WebView%E5%88%B0%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">1 添加WebView到你的应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%9C%A8WebView%E4%B8%AD%E4%BD%BF%E7%94%A8JavaScript"><span class="toc-text">2 在WebView中使用JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8JavaScript"><span class="toc-text">2.1 授权使用JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%9C%A8Android%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%BB%91%E5%AE%9AJavaScript%E4%BB%A3%E7%A0%81"><span class="toc-text">2.2 在Android代码中绑定JavaScript代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%A1%B5%E9%9D%A2%E5%AF%BC%E8%88%AA"><span class="toc-text">3 页面导航</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%AF%BC%E8%88%AAweb%E7%9A%84%E6%B5%8F%E8%A7%88%E8%AE%B0%E5%BD%95"><span class="toc-text">3.1 导航web的浏览记录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。<span id="more"></span><br>WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activity中包含一个WebView控件用来展示服务器维护的内容，这些内容可以在服务器随时更改。<br>WeblView另一个使用场景是，当我们需要在一个页面中请求所有用户的数据，一般的做法是写一个layout，然后利用网络请求所有所需数据，最后将这些数据填充到layout中。但最简洁的方式是，我们其实可以直接加载一个网页，这个网页包含了需要的数据。<br>这个教程将帮助你学会使用WebView，以及关于它高级一点的用法，比如页面跳转、js交互等。</p>
+<h1 id="1-添加WebView到你的应用"><a href="#1-添加WebView到你的应用" class="headerlink" title="1 添加WebView到你的应用"></a>1 添加WebView到你的应用</h1><p>添加WebView到你的应用最简单的方式是在Layout中添加&lt; WebView &gt;标签，例如下面的例子表示一个全屏的WebView。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;WebView  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:id=&quot;@+id/webview&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>加载网页，调用loadUrl()方法即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.loadUrl(&quot;http://www.example.com&quot;);</span><br></pre></td></tr></table></figure>
+<p>请求服务器网页时，别忘了要加网络请求权限。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest ... &gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br><span class="line">...</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
+<p>以上就是最简单的加载网页方式。</p>
+<h1 id="2-在WebView中使用JavaScript"><a href="#2-在WebView中使用JavaScript" class="headerlink" title="2 在WebView中使用JavaScript"></a>2 在WebView中使用JavaScript</h1><p>如果你在APP展示的网页中包含JS，那么请确保WebView支持JS的加载。在此之后，你还可以新建接口让WebView与Android代码交互。</p>
+<h2 id="2-1-授权使用JavaScript"><a href="#2-1-授权使用JavaScript" class="headerlink" title="2.1 授权使用JavaScript"></a>2.1 授权使用JavaScript</h2><p>WebView默认不支持JS的加载，开启它需要调用WebSetting的setJavaScriptEnable()方法。WebSetting可以通过WebView的getSettings()方法获得。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">WebSettings webSettings = myWebView.getSettings();</span><br><span class="line">webSettings.setJavaScriptEnabled(true);</span><br></pre></td></tr></table></figure>
+<p>WebSetting提供了许多使用性的功能，比如你想让你幸幸苦苦开发的web page只能在自己的android应用中展示，那么可以在客户端通过setUserAgentString()设置用户代理之后，在服务端遍历userAgentString字段是否是自己的客户端所设定的。</p>
+<h2 id="2-2-在Android代码中绑定JavaScript代码"><a href="#2-2-在Android代码中绑定JavaScript代码" class="headerlink" title="2.2 在Android代码中绑定JavaScript代码"></a>2.2 在Android代码中绑定JavaScript代码</h2><p>通过接口的方式，你可以使你的Android代码和JavaScript代码进行交互。例如，你的JavaScript代码可以调用Android代码弹出一个提示框，而不是使用JavaScript的Alert（）方法。<br>让JavaScript和Android代码产生联系的关键是addJavaScriptInterface()方法，此方法包含两个参数，第一个是一个类对象，供JavaScript调用。第二个是接口名称，它用在JavaScript中作为调用Android方法的别名。<br>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class WebAppInterface &#123;</span><br><span class="line">Context mContext;</span><br><span class="line"></span><br><span class="line">/** Instantiate the interface and set the context */</span><br><span class="line">WebAppInterface(Context c) &#123;</span><br><span class="line">mContext = c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** Show a toast from the web page */</span><br><span class="line">@JavascriptInterface</span><br><span class="line">public void showToast(String toast) &#123;</span><br><span class="line">Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>特别提醒：</strong>如果你的Android目标SDK版本在17或以上，你必须在那些将要在JavaScript中调用的方法体前使用@JavascriptInterface标识。否则，这些方法将不会被调用。</p>
+</blockquote>
+<p>在这个实例中，WebAppInterface允许JavaScript运行showToast方法弹出一个Toast。<br>你可以运行这段代码通过WebView的addJavaScriptInterface()方法，并指定接口的名称为“Android”，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = (WebView) findViewById(R.id.webview);</span><br><span class="line">webView.addJavascriptInterface(new WebAppInterface(this), &quot;Android&quot;);</span><br></pre></td></tr></table></figure>
+<p>这段代码为运行在WebView中的JavaScript创建了一个接口“Android”，那么现在你的JavaScript已经有能力访问WebAppInterface中的showToast方法了。下面的HTML和JS代码将调用showToast方法弹出Toast提示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; value=&quot;Say hello&quot; onClick=&quot;showAndroidToast(&#x27;Hello Android!&#x27;)&quot; /&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">function showAndroidToast(toast) &#123;</span><br><span class="line">Android.showToast(toast);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>如你所看到的，在JS中使用“Android”这个接口时，并不需要初始化它，在此之前，WebView已经为你准备好了一些，你只需要通过它调用逻辑即可。</p>
+<blockquote>
+<p><strong>注意：</strong><br>1.WebAppInterface的实例将运行在另一个线程，并不在原来新建它的线程。<br>2.由于通过JS可以调用本地的Android代码，那么我们对于这点要非常的谨慎。对于不受信任的web链接，不应该使用addJavascriptInterface()，除非这个链接是自己本人写的或者其它应该充分信任它的理由。同时，对于不信任的网站，我们在处理它的跳转时应该非常小心，不应该在我们的WebView中直接接受链接的跳转。（默认情况，WebView网页中的链接会跳转到手机的Web浏览器，这是保证安全的前提下一种很好的处理方法。但是，在接下来会提到的serWebViewClient()方法中，你可以自定义链接的行为，这就需要小心了。）</p>
+</blockquote>
+<h1 id="3-页面导航"><a href="#3-页面导航" class="headerlink" title="3 页面导航"></a>3 页面导航</h1><p>当用户在WebView点击一个链接后，默认的行为是在web浏览器中打开该链接所指向的网页。正如上面所提及的一样，你是可以通过WebView的serWebViewClient方法自定义这个行为的。例如在自己的WebView中展示跳转的内容，而不是跳转到web浏览器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.setWebClient(new WebClient());</span><br></pre></td></tr></table></figure>
+<p>当然你还可以做更多：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private class MyWebViewClient extends WebViewClient &#123;</span><br><span class="line">@Override</span><br><span class="line">public boolean shouldOverrideUrlLoading(WebView view,String url)&#123;</span><br><span class="line">if (Uri.parse(url).getHost().equals(&quot;www.example.com&quot;)) &#123;</span><br><span class="line">// This is my web site, so do not override; let my WebView load the page</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">// Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs</span><br><span class="line">Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));</span><br><span class="line">startActivity(intent);</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建MyWebViewClient的实例作为setWebClient()的参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.setWebClient(new MyWebViewClient());</span><br></pre></td></tr></table></figure>
+<h2 id="3-1-导航web的浏览记录"><a href="#3-1-导航web的浏览记录" class="headerlink" title="3.1 导航web的浏览记录"></a>3.1 导航web的浏览记录</h2><p>在WebView中浏览网页时，我们可能会通过web中包含的外链跳转到其它的网页（在同一Webview页面中），那么这些跳转记录是可以来回切换的，这里主要涉及到goBack()和goForward()方法的使用。<br>例如下面的例子，我们通过设备的返回按钮让WebView回退到上一个页面，或者退出当前Activity。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyDown(int keyCode, KeyEvent event) &#123;</span><br><span class="line">    // Check if the key event was the Back button and if there&#x27;s history</span><br><span class="line">    if ((keyCode == KeyEvent.KEYCODE_BACK) &amp;&amp; myWebView.canGoBack()) &#123;</span><br><span class="line">        myWebView.goBack());</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    // If it wasn&#x27;t the Back key or there&#x27;s no web page history, bubble up to the default</span><br><span class="line">    // system behavior (probably exit the activity)</span><br><span class="line">    return super.onKeyDown(keyCode, event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/webapps/webview.html#HandlingNavigation">Building Web Apps in WebView</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android动画（六）：布局动画
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            TXM &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

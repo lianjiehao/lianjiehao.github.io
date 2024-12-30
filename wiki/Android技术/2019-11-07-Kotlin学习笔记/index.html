@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Kotlin 使用笔记（进行中...） | 唐先明de博客</title>
+    
+    
+        <meta name="keywords" content="Kotlin">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin 使用笔记（进行中...）">
+<meta property="og:url" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-08-28T04:08:10.000Z">
+<meta property="article:modified_time" content="2024-12-30T13:13:00.813Z">
+<meta property="article:author" content="TXM">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">唐先明de博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android技术
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">认识NDK</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究：添加头尾布局</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file active"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Android技术/2019-11-07-Kotlin学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android%E6%8A%80%E6%9C%AF/">Android技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Kotlin/" rel="tag">Kotlin</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            <time datetime="2019-08-28T04:08:10.000Z" itemprop="datePublished">2019-08-28</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Kotlin 使用笔记（进行中...）
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">1 单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">2.</span> <span class="toc-text">2  代码块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%AE%BF%E9%97%AE%E9%99%90%E5%88%B6%E7%AC%A6"><span class="toc-number">3.</span> <span class="toc-text">3 访问限制符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">4 内联函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%A7%94%E6%89%98"><span class="toc-number">5.</span> <span class="toc-text">5 委托</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%9E%84%E9%80%A0%E5%99%A8%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">6.</span> <span class="toc-text">6 构造器执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0"><span class="toc-number">7.</span> <span class="toc-text">7 作用域函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%81%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%BB%A5%E5%8F%8A%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="toc-number">8.</span> <span class="toc-text">8 lambda表达式、匿名函数以及函数类型三者之间的联系与区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-%E7%90%86%E8%A7%A3%E3%80%8C%E5%B8%A6%E6%8E%A5%E6%94%B6%E8%80%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B-%E3%80%8D"><span class="toc-number">9.</span> <span class="toc-text">9 理解「带接收者类型的函数类型 」</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E9%97%AD%E5%8C%85"><span class="toc-number">10.</span> <span class="toc-text">10 闭包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%B9%B3%E5%8F%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text">11 平台类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E5%8D%8F%E7%A8%8B"><span class="toc-number">12.</span> <span class="toc-text">12 协程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13-%E5%A6%82%E4%BD%95%E8%B7%B3%E5%87%BA%E5%BE%AA%E7%8E%AF%E5%92%8C%E8%B7%B3%E5%87%BA%E5%BD%93%E5%89%8D%E5%BE%AA%E7%8E%AF%E4%BD%93"><span class="toc-number">13.</span> <span class="toc-text">13 如何跳出循环和跳出当前循环体</span></a></li></ol> -->
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">1 单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-text">2  代码块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%AE%BF%E9%97%AE%E9%99%90%E5%88%B6%E7%AC%A6"><span class="toc-text">3 访问限制符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">4 内联函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%A7%94%E6%89%98"><span class="toc-text">5 委托</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%9E%84%E9%80%A0%E5%99%A8%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">6 构造器执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0"><span class="toc-text">7 作用域函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%81%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%BB%A5%E5%8F%8A%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="toc-text">8 lambda表达式、匿名函数以及函数类型三者之间的联系与区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-%E7%90%86%E8%A7%A3%E3%80%8C%E5%B8%A6%E6%8E%A5%E6%94%B6%E8%80%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B-%E3%80%8D"><span class="toc-text">9 理解「带接收者类型的函数类型 」</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E9%97%AD%E5%8C%85"><span class="toc-text">10 闭包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%B9%B3%E5%8F%B0%E7%B1%BB%E5%9E%8B"><span class="toc-text">11 平台类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E5%8D%8F%E7%A8%8B"><span class="toc-text">12 协程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13-%E5%A6%82%E4%BD%95%E8%B7%B3%E5%87%BA%E5%BE%AA%E7%8E%AF%E5%92%8C%E8%B7%B3%E5%87%BA%E5%BD%93%E5%89%8D%E5%BE%AA%E7%8E%AF%E4%BD%93"><span class="toc-text">13 如何跳出循环和跳出当前循环体</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 <code>扔物线</code> 老师的 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://kaixue.io/">码上开学系列教程</a> 和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kotlincn.net/docs/reference/whatsnew13.html">Kotlin 官方教程</a> 为主，同时也会配合参考其他优秀文章。<span id="more"></span></p>
+<h1 id="1-单例模式"><a href="#1-单例模式" class="headerlink" title="1 单例模式"></a>1 单例模式</h1><p>Java 的单例模式通常实现起来稍显繁琐，包含大量的模板代码，具体使用可参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.runoob.com/design-pattern/singleton-pattern.html">这篇文章</a>。<br>而 Kotlin 实现单例模式是非常便捷的，只需使用 <code>object</code> 关键字即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 👇 class 替换成了 object</span><br><span class="line">object A &#123;</span><br><span class="line">    val number: Int = 1</span><br><span class="line">    fun method() &#123;</span><br><span class="line">        println(&quot;A.method()&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+<p>通过 Android studio 转换工具将上面代码转成 Java 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public final class A &#123;</span><br><span class="line">   private static final int number = 1;</span><br><span class="line">   public static final A INSTANCE;</span><br><span class="line"></span><br><span class="line">   public final int getNumber() &#123;</span><br><span class="line">      return number;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   public final void method() &#123;</span><br><span class="line">      String var1 = &quot;A.method()&quot;;</span><br><span class="line">      boolean var2 = false;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   static &#123;</span><br><span class="line">      A var0 = new A();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">      number = 1;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，实际上这种通过 <code>object</code> 实现的单例是一个饿汉式的单例，并且实现了线程安全。</p>
+<h1 id="2-代码块"><a href="#2-代码块" class="headerlink" title="2  代码块"></a>2  代码块</h1><p>Java 一共有四大代码块，可参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/entry/5876f05a2f301e005772fb07">这篇文章</a>，需要注意的是，文章中最后提到的同步代码块中对静态代码块的解释有误，如果要了解 java 中的同步代码块知识，可以移步到笔者之前写的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://kimball325.github.io/2016/12/18/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">这篇文章</a>。<br>Kotlin 中的构造代码块和静态代码块有了一些变化，先来看构造代码块。<br>Java 是这样写的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        // 初始化代码块，先于下面的构造器执行</span><br><span class="line">    &#125;</span><br><span class="line">    public User() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而 Kotlin 是这样写的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class User &#123;</span><br><span class="line">    init &#123;</span><br><span class="line">        // 初始化代码块，先于下面的构造器执行</span><br><span class="line">    &#125;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于静态代码块， Java 是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Sample &#123;</span><br><span class="line">    static &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而 Kotlin 是这样写的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Sample &#123;</span><br><span class="line">    companion object &#123;</span><br><span class="line">        init &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="3-访问限制符"><a href="#3-访问限制符" class="headerlink" title="3 访问限制符"></a>3 访问限制符</h1><p>Java 的访问限制符可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.runoob.com/java/java-modifier-types.html#protected-desc">这篇文章</a>访问控制修饰符部分。其中，如下几个知识点需要注意一下：</p>
+<blockquote>
+<p>1、<strong>子类与基类在同一包中</strong>：被声明为 protected 或 default 的变量、方法和构造器能被同一个包中的任何其他类访问。<br>2、<strong>子类与基类不在同一包中</strong>：那么在子类中，子类实例可以访问其从基类继承而来的 protected 方法，而不能访问基类实例的 protected 方法。同时，在子类中既不能访问其从基类继承而来的 default 方法，也不能访问基类实例的 default 方法。（变量、构造器同理。）<br>3、子类可以对从父类继承的方法加宽访问范围。访问控制符的访问范围有大到小排序是：public &gt; protect &gt;  default &gt; private。</p>
+</blockquote>
+<p>对于Kotlin的访问控制符，直接参考码上开学吧。</p>
+<h1 id="4-内联函数"><a href="#4-内联函数" class="headerlink" title="4 内联函数"></a>4 内联函数</h1><p>首先我们来看使用内联函数的一个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">inline fun log() &#123;</span><br><span class="line">    println(&quot;log1&quot;)</span><br><span class="line">    println(&quot;log2&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    log()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反编译成 Java 的代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static final void log() &#123;</span><br><span class="line">     String var1 = &quot;log1&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">     var1 = &quot;log2&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static final void main(@NotNull String[] args) &#123;</span><br><span class="line">     Intrinsics.checkParameterIsNotNull(args, &quot;args&quot;);</span><br><span class="line">     String var1 = &quot;log1&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">     var1 = &quot;log2&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>而我们去掉 inline 关键字后，再反编译成 Java 代码，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static final void log() &#123;</span><br><span class="line">    String var0 = &quot;log1&quot;;</span><br><span class="line">    System.out.println(var0);</span><br><span class="line">    var0 = &quot;log2&quot;;</span><br><span class="line">    System.out.println(var0);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public static final void main(@NotNull String[] args) &#123;</span><br><span class="line">    Intrinsics.checkParameterIsNotNull(args, &quot;args&quot;);</span><br><span class="line">    log();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>如上可以看到，使用内联函数可以减少一层函数的调用栈，但如果有多个地方调用内联函数的话，就会隐式地增加编译后代码的行数。那么如果正确使用内联函数呢，或者说它到底有什么用？有如下几个使用场景：</p>
+<p>1、函数参数包含函数类型的函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class View &#123;</span><br><span class="line">    inline fun setOnClickListener(listener: (View) -&gt; Unit) &#123;</span><br><span class="line">        listener(this)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不使用内联函数，由于 setOnClickListener 使用的是函数类型的参数，那么在调用时会产生一个额外的对象，具体的过程可以反编译成 Java 文件后看看。</p>
+<p>2、泛型具体化。<br>平时我们使用泛型时，是不能直接对泛型类型进行操作的。比如下面的操作会导致编译不通过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun &lt;T&gt; excute() &#123;</span><br><span class="line">    func(T::class.java) //编译器报错：Cannot use &#x27;T&#x27; as reified type parameter. Use a class instead.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大意是：不能使用泛型 T 作为具体的类型参数。如果依照 Java 的解决方式，可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun &lt;T&gt; excute(class: Class&lt;T&gt;) &#123;</span><br><span class="line">    func(class)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过， Kotlin 中有更加方便的用法，也就是使用 inline 关键字达到让泛型具体化的目标：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inline fun &lt;reified T&gt; excute() &#123;</span><br><span class="line">    func(T::class.java)</span><br><span class="line">&#125;</span><br><span class="line">//PS：使用时还需在泛型声明前加上 refied 关键字，才能让泛型真正具体化。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Retrofit 最新拓展中，内部已经实现了一个内联函数用来代替旧版本创建实例的方式。具体可参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/square/retrofit/blob/master/retrofit/src/main/java/retrofit2/KotlinExtensions.kt">Retrofit.create()</a> 拓展方法。</p>
+</blockquote>
+<h1 id="5-委托"><a href="#5-委托" class="headerlink" title="5 委托"></a>5 委托</h1><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.runoob.com/kotlin/kotlin-delegated.html">参考地址&gt;&gt;</a><br>上面的文章中，笔者认为只需要理解从开篇到“把属性储存在映射中”部分的内容，剩下的内容读者自行斟酌其重要性吧。</p>
+<h1 id="6-构造器执行顺序"><a href="#6-构造器执行顺序" class="headerlink" title="6 构造器执行顺序"></a>6 构造器执行顺序</h1><p>Kotlin 的构造器执行顺序和 Java 一致，可参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/IBLiplus/article/details/81192986">这篇文章&gt;&gt;</a></p>
+<h1 id="7-作用域函数"><a href="#7-作用域函数" class="headerlink" title="7 作用域函数"></a>7 作用域函数</h1><ul>
+<li><p>返回自身<br>从<code>apply</code>和<code>also</code>中选<br>1.作用域中使用 this 作为参数，选择 apply。<br>2.作用域中使用 it 作为参数，选择 also。</p>
+</li>
+<li><p>不需要返回自身<br>从<code>run</code>和<code>let</code>中选择<br>1.作用域中使用 this 作为参数，选择 run。<br>2.作用域中使用 it 作为参数，选择 let。</p>
+</li>
+</ul>
+<p><code>apply</code> 适合对一个对象做附加操作的时候。<br><code>let</code> 适合配合空判断的时候。<br><code>with</code> 适合对同一个对象进行多次操作的时候。它的最大的作用是可以返回任何对象，这是其它几个作用域函数不能实现的。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kotlincn.net/docs/reference/scope-functions.html#with">官方详解&gt;&gt;</a></p>
+<h1 id="8-lambda表达式、匿名函数以及函数类型三者之间的联系与区别"><a href="#8-lambda表达式、匿名函数以及函数类型三者之间的联系与区别" class="headerlink" title="8 lambda表达式、匿名函数以及函数类型三者之间的联系与区别"></a>8 lambda表达式、匿名函数以及函数类型三者之间的联系与区别</h1><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kotlincn.net/docs/reference/lambdas.html#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0">官方文档参考&gt;&gt;</a></p>
+<h1 id="9-理解「带接收者类型的函数类型-」"><a href="#9-理解「带接收者类型的函数类型-」" class="headerlink" title="9 理解「带接收者类型的函数类型 」"></a>9 理解「带接收者类型的函数类型 」</h1><p>概念：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kotlincn.net/docs/reference/lambdas.html#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E4%B8%8E-lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F">官方文档（只需看相关的）&gt;&gt;</a><br>实践（来自 Android KTX Core）：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://cs.android.com/androidx/platform/frameworks/support/+/androidx-master-dev:core/core-ktx/src/main/java/androidx/core/content/SharedPreferences.kt;l=20?q=SharedPreferences&ss=androidx">SharedPreferences 源码&gt;&gt;</a></p>
+<h1 id="10-闭包"><a href="#10-闭包" class="headerlink" title="10 闭包"></a>10 闭包</h1><p>其实闭包并不是 Kotlin 中的新概念，在 Java 8 中就已经支持。我们以 Thread 为例，来看看什么是闭包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个 Thread 的完整写法</span><br><span class="line">Thread(object : Runnable &#123;</span><br><span class="line">    override fun run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">​</span><br><span class="line">// Runnable 是函数式接口，可以使用 lambda 表达式简化为</span><br><span class="line">Thread(&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line">​</span><br><span class="line">// 使用闭包原则，再简化为</span><br><span class="line">Thread &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>形如 Thread {…} 这样的结构中 {} 就是一个<strong>闭包</strong>。</p>
+<p>在 Kotlin 中有这样一个语法糖：当函数的最后一个参数是 lambda 表达式时（又名：拖尾 lambda 表达式），可以将 lambda 写在括号外。这就是它的<strong>闭包原则</strong>。</p>
+<p>在这里需要一个类型为 Runnable 的参数，而 Runnable 是一个 Java 接口，且只定义了一个函数 run，这种情况可以转换成传递一个 lambda 表达式（第二段），因为是最后一个参数，根据闭包原则我们就可以直接写成 Thread {…}（第三段） 的形式。</p>
+<blockquote>
+<p><strong>注意</strong>:<br>Kotlin 对于“函数式接口可以使用 lambda 表达式”这个用法仅仅是针对接口是 Java 类型的情况，如果接口是 Kotlin 写的，则在 Kotlin 中调用以接口作为参数的方法时必须通过关键字’object’创建匿名类的对象来作为其参数。</p>
+</blockquote>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://kaixue.io/kotlin-coroutines-1/">参考链接&gt;&gt;</a></p>
+<h1 id="11-平台类型"><a href="#11-平台类型" class="headerlink" title="11 平台类型"></a>11 平台类型</h1><p>在 kotlin 中使用其他平台（如：Java）的类型时，如果该类型未用可空性注解标注，则 Kotlin 会自动将这其解释成平台类型。</p>
+<p>在类型后面加上一个感叹号的类型就是平台类型，平台类型不能手动声明。</p>
+<p>Kotlin 对平台类型的空检测会放宽， 因此它们的安全保证与在 Java 中相同，即要空检查。</p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kotlincn.net/docs/reference/java-interop.html#%E7%A9%BA%E5%AE%89%E5%85%A8%E4%B8%8E%E5%B9%B3%E5%8F%B0%E7%B1%BB%E5%9E%8B">官方文档（看到可空性注解）&gt;&gt;</a>。</p>
+<h1 id="12-协程"><a href="#12-协程" class="headerlink" title="12 协程"></a>12 协程</h1><p>使用请参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://kaixue.io/tag/kotlin-coroutines/">码上开学</a>。</p>
+<p>源码解析请参考如下两篇文章：<br>1、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://kymjs.com/code/2017/11/24/01/">Kotlin Primer·第七章·协程库（上篇）</a>；<br>2、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://kymjs.com/code/2017/11/06/01/">Kotlin Primer·第七章·协程库（中篇）</a>。</p>
+<p>另外，为了加深源码以及使用的理解，可配合下面知乎的三篇文章阅读：<br>1、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/126239044">Kotlin协程启动模式</a>；<br>2、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/126239466">Kotlin协程调度</a>；<br>3、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/129033165">Kotlin协程生命的尽头—协程取消</a>。</p>
+<p>协程 + ViewModel 使用案例：<br>1、<a target="_blank" rel="external nofollow noopener noreferrer" href="http://chsmy.github.io/2020/01/16/technology/Retrofit%E5%8A%A0kotlin%E5%8D%8F%E7%A8%8B%E4%B8%BA%E4%BD%95%E5%A6%82%E6%AD%A4%E4%BC%98%E9%9B%85/">Retrofit加kotlin协程为何如此优雅</a>；<br>2、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/yuzhiqiang_1993/article/details/101012090">Retrofit+协程+Jetpack架构组件实现简单网络请求</a>。</p>
+<p>PS：链接2的文章原标题提到 MVVM ，此表述有误。 MVVM 中的 ViewModel 和官方提供的 ViewModel 本质上是不同的概念。</p>
+<blockquote>
+<p><strong>源码阅读建议</strong><br>首先，通过如下两篇文章了解Lifecycle的使用：<br><a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/post/6844903784166998023">文章1</a><br><a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/post/6844903790257111048">文章2</a><br>之后，依据 LiveData、ViewModel、Retrofit 以及协程之间搭配使用的案例，可以仔细的去看下源码（还是很好理解的），这对于加深理解很有帮助。主要侧重几个点：<br>1、LiveData 是如何监听数据改变的？setValue 和 postValue 的区别？<br>2、ViewModel 为什么能在屏幕发生旋转后，仍然能够拿到原来的 ViewModel 实例？<br>3、ViewModel 是如何与界面的生命周期绑定的？<br>4、viewModelScope 为什么能在界面销毁时自动取消任务？<br>5、Retrofit 2.6 为什么能与协程一起工作？<br>6、Retrofit 使用协程以后如何在界面销毁自动取消请求？</p>
+</blockquote>
+<h1 id="13-如何跳出循环和跳出当前循环体"><a href="#13-如何跳出循环和跳出当前循环体" class="headerlink" title="13 如何跳出循环和跳出当前循环体"></a>13 如何跳出循环和跳出当前循环体</h1><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/post/6844903870586437639">forEach 中如何跳出循环和跳出当前循环体&gt;&gt;</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android 问题汇总（进行中...）
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android动画（七）：过渡动画</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            TXM &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

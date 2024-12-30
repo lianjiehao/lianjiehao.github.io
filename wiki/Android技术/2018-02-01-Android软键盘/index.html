@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Android软键盘 | 唐先明de博客</title>
+    
+    
+        <meta name="keywords" content="View">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android软键盘">
+<meta property="og:url" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/1.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/2.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/3.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/4.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/5.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/6.jpeg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/7.png">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/8.jpg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/9.jpg">
+<meta property="article:published_time" content="2020-03-11T08:45:15.000Z">
+<meta property="article:modified_time" content="2024-12-30T13:36:17.355Z">
+<meta property="article:author" content="TXM">
+<meta property="article:tag" content="View">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/1.jpeg">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">唐先明de博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android技术
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">认识NDK</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究：添加头尾布局</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file active"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Android技术/2018-02-01-Android软键盘" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android%E6%8A%80%E6%9C%AF/">Android技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/View/" rel="tag">View</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">
+            <time datetime="2020-03-11T08:45:15.000Z" itemprop="datePublished">2020-03-11</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Android软键盘
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%93%8D%E4%BD%9C%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text">1 操作软键盘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E6%98%BE%E7%A4%BA%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 显示软键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%9A%90%E8%97%8F%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 隐藏软键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%88%87%E6%8D%A2%E9%94%AE%E7%9B%98%E7%9A%84%E5%BC%B9%E5%87%BA%E5%92%8C%E9%9A%90%E8%97%8F"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 切换键盘的弹出和隐藏</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%9B%91%E5%90%AC%E9%94%AE%E7%9B%98%E7%9A%84%E5%BC%B9%E8%B5%B7%E4%B8%8E%E9%9A%90%E8%97%8F"><span class="toc-number">2.</span> <span class="toc-text">2 监听键盘的弹起与隐藏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E8%BE%93%E5%85%A5%E6%A1%86"><span class="toc-number">3.</span> <span class="toc-text">3 如何避免键盘遮挡输入框</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9AwindowSoftInputMode-adjustResize%E5%92%8CadjustPan"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 方法一：windowSoftInputMode:adjustResize和adjustPan</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E5%BD%93%E9%94%AE%E7%9B%98%E5%BC%B9%E8%B5%B7%E6%97%B6%EF%BC%8C%E8%AE%A9%E7%95%8C%E9%9D%A2%E6%95%B4%E4%BD%93%E4%B8%8A%E7%A7%BB%EF%BC%9B%E9%94%AE%E7%9B%98%E6%94%B6%E8%B5%B7%EF%BC%8C%E8%AE%A9%E7%95%8C%E9%9D%A2%E6%95%B4%E4%BD%93%E4%B8%8B%E7%A7%BB"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-%E4%B8%BB%E8%A6%81%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 主要实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 实现原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol> -->
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%93%8D%E4%BD%9C%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-text">1 操作软键盘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E6%98%BE%E7%A4%BA%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-text">1.1 显示软键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%9A%90%E8%97%8F%E8%BD%AF%E9%94%AE%E7%9B%98"><span class="toc-text">1.2 隐藏软键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%88%87%E6%8D%A2%E9%94%AE%E7%9B%98%E7%9A%84%E5%BC%B9%E5%87%BA%E5%92%8C%E9%9A%90%E8%97%8F"><span class="toc-text">1.3 切换键盘的弹出和隐藏</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%9B%91%E5%90%AC%E9%94%AE%E7%9B%98%E7%9A%84%E5%BC%B9%E8%B5%B7%E4%B8%8E%E9%9A%90%E8%97%8F"><span class="toc-text">2 监听键盘的弹起与隐藏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E9%94%AE%E7%9B%98%E9%81%AE%E6%8C%A1%E8%BE%93%E5%85%A5%E6%A1%86"><span class="toc-text">3 如何避免键盘遮挡输入框</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9AwindowSoftInputMode-adjustResize%E5%92%8CadjustPan"><span class="toc-text">3.1 方法一：windowSoftInputMode:adjustResize和adjustPan</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E5%BD%93%E9%94%AE%E7%9B%98%E5%BC%B9%E8%B5%B7%E6%97%B6%EF%BC%8C%E8%AE%A9%E7%95%8C%E9%9D%A2%E6%95%B4%E4%BD%93%E4%B8%8A%E7%A7%BB%EF%BC%9B%E9%94%AE%E7%9B%98%E6%94%B6%E8%B5%B7%EF%BC%8C%E8%AE%A9%E7%95%8C%E9%9D%A2%E6%95%B4%E4%BD%93%E4%B8%8B%E7%A7%BB"><span class="toc-text">3.2 方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-%E4%B8%BB%E8%A6%81%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-text">3.2.1 主要实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">3.2.2 实现原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。<span id="more"></span>本篇的讲解将分以下几个主题：<br>1、操作软键盘<br>2、监听键盘的弹起与隐藏<br>3、如何避免键盘遮挡输入框</p>
+<h1 id="1-操作软键盘"><a href="#1-操作软键盘" class="headerlink" title="1 操作软键盘"></a>1 操作软键盘</h1><p>想要操作软键盘，需要使用到 InputMethodManager ，它是一个系统服务，可以使用 Context.getSystemService() 获取到它。</p>
+<h2 id="1-1-显示软键盘"><a href="#1-1-显示软键盘" class="headerlink" title="1.1 显示软键盘"></a>1.1 显示软键盘</h2><p>在 InputMethodManager中，有两个方法showSoftInput()和showSoftInputFromInputMethod()，而实际上，只有showSoftInput()是有效的。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/1.jpeg" class>
+<p>这里我们只需要传递两个参数。它首先需要一个View ，使用软键盘就是为了输入，而输入就需要有接收输入内容的View ，这里接收输入的View ，最好是一个EditText（但这不是必须的）。<br>而第二个参数flags就是个标志位，从上面截图的方法签名上的文档上可以看到，它接收0或者SHOW_INPYT_IMPLICIT 两个参数，但是实际上，它有第三个参数，另外一个是SHOW_FORCED。一般没有特别需要的话，我们直接传递0就好了(实际上SHOW_INPYT_IMPLICIT、SHOW_FORCED并不影响显示，只是在隐藏的时候，会有一些限制。而且我们一般的话，不管显示或者隐藏都将flag设置为0，特殊情况遇到再做分析)。<br>现在，简单总结一下调用showSoftInput()会生效的关键点：<br>1、第一个参数，最好是EditText或者它的子类。<br>考虑到软键盘就是为了输入，EditText就是一个接收输入的控件。而这不是绝对的，如果不是一个EditText ，就必须要求这个View有两个属性，分别是：android:focusable&#x3D;”true” 和android:focusableInTouchMode&#x3D;”true”。<br>2、第一个参数，必须是可获取焦点的，并且当前已经获取到焦点。<br>EditText默认是允许获取焦点的，但是假如布局中，存在多个可获取焦点的控件，就需要提前让我们传递进去的View获取到焦点。获取焦点可以使用requestFocus()方法。<br>3、布局必须加载完成。<br>在onCreate()中，如果立即调用showSoftInput()是不会生效的。想要在页面一启动的时候就弹出键盘，可以在Activity上，设置 android:windowSoftInputMode属性来完成，或者做一个延迟加载，View.postDelayed()也是一个解决方案。<br>所以最终，完整的显示软键盘的代码就如下所示了。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/2.jpeg" class>
+<h2 id="1-2-隐藏软键盘"><a href="#1-2-隐藏软键盘" class="headerlink" title="1.2 隐藏软键盘"></a>1.2 隐藏软键盘</h2><p>虽然showSoftInput()方法是有效的，但是想要隐藏软键盘，就没有提供对应的hideSoftInput()方法，但是却有一个hideSoftInputFromWindow()方法，可以用来隐藏软键盘。<br>先来看看这个方法的签名，它同样有两个方法可以调用。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/3.jpeg" class>
+<p>它接收两个参数，第一个参数是一个IBinder ，可以直接传递一个 View.getWindowToken()的windowToken对象就可以了。而第二个参数，就是隐藏软键盘的标志位，如果没有特殊要求的话，直接传递0就好了。</p>
+<blockquote>
+<p><strong>注意：</strong>这里虽然原则上需要传递一个之前弹出键盘传递的时候，传递的View的windowToken，但是实际情况是你只需要传递一个存在于当前布局ViewTree中，随意一个View的windowToken就可以了。</p>
+</blockquote>
+<p>最终隐藏软件的代码就是这样的。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/4.jpeg" class>
+<h2 id="1-3-切换键盘的弹出和隐藏"><a href="#1-3-切换键盘的弹出和隐藏" class="headerlink" title="1.3 切换键盘的弹出和隐藏"></a>1.3 切换键盘的弹出和隐藏</h2><p>在InputMethodManager中，还提供了一个toggleSoftInput()方法，如同它的名字一样，它可以让软键盘在显示和隐藏之间切换。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/5.jpeg" class>
+<p>该方法，接收两个flags ，分别是控制show和hide时候的标识，它们的含义和前面介绍的showSoftInput()和hideSoftInputFromWindow()一致，所以没有特殊要求，直接传递0就好了。<br>toggleSoftInput()方法不要求传递一个View或者windowToken，所以它并没有showSoftInput()中的一些限制，但是依然还有需要在布局绘制完成之后调用才会有效果。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/6.jpeg" class>
+<p>虽然这个方法，限制很少，但是我们基本上不会使用它。主要原因在于，它是一个开关的方法，会根据当前的状态做相反的操作。这就导致很多时候，我们在代码中，无法直接根据InputMethodManager提供的方法判断当前软键盘的显示状态，这样也就无法确定调用它的时候的效果了。</p>
+<h1 id="2-监听键盘的弹起与隐藏"><a href="#2-监听键盘的弹起与隐藏" class="headerlink" title="2 监听键盘的弹起与隐藏"></a>2 监听键盘的弹起与隐藏</h1><p>如果想要监听键盘的弹出和收起，可以使用<code>ViewTreeObserver.OnGlobalLayoutListener</code>这个监听，来监听布局的调整，从而判断出键盘的弹出和隐藏。下面是一个使用ViewTreeObserver.OnGlobalLayoutListener后获取屏幕中各个类型高度的例子，请注意代码中的注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onGlobalLayout() &#123;</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;root.getHeight(): &quot; + root.getHeight());//当前所引用视图的高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;root.getRootView().getHeight(): &quot; + root.getRootView().getHeight());//屏幕高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;getWindow().getDecorView(): &quot; + getWindow().getDecorView().getHeight());//屏幕高度</span><br><span class="line">Rect r = new Rect();</span><br><span class="line">getWindow().getDecorView().getWindowVisibleDisplayFrame(r);</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;r.top: &quot; + r.top);//状态栏高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;r.bottom-r.top: &quot; + (r.bottom - r.top));//用户界面的可视高度（除去状态栏和底部导航）</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>代码中<code>r.bottom - r.top</code>代表了除去状态栏、底部导航栏后，手机屏幕剩余可视高度。注意，这个剩余可视高度也不包括输入法弹窗的高度（如果屏幕中有输入法弹窗的话）。有了以上的基础，我们就可以通过<code>getWindow().getDecorView().getHeight()-r.bottom&gt;100?键盘弹出：键盘隐藏</code>来判断键盘是否隐藏了。</p>
+<blockquote>
+<p><strong>注意：</strong>为什么要大于100呢？因为如果手机具备底部导航区域的话，要排除这个值的干扰。当然了，直接默认底部导航区域高度为100肯定是不精确的，实际应用中我们应该获取到真实的底部导航区域高度，具体如何获取底部导航区域高度可以<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/u012764110/article/details/49783465">参考这篇文章</a>。</p>
+</blockquote>
+<h1 id="3-如何避免键盘遮挡输入框"><a href="#3-如何避免键盘遮挡输入框" class="headerlink" title="3 如何避免键盘遮挡输入框"></a>3 如何避免键盘遮挡输入框</h1><p>在开发中，经常会遇到键盘挡住输入框的情况，比如登录界面或注册界面，弹出的软键盘把登录或注册按钮挡住了，用户必须把软键盘收起，才能点击相应按钮，这样的用户体验非常不好。下面对几种在开发中常用的避免键盘遮挡输入框的方法进行总结。</p>
+<h2 id="3-1-方法一：windowSoftInputMode-adjustResize和adjustPan"><a href="#3-1-方法一：windowSoftInputMode-adjustResize和adjustPan" class="headerlink" title="3.1 方法一：windowSoftInputMode:adjustResize和adjustPan"></a>3.1 方法一：windowSoftInputMode:adjustResize和adjustPan</h2><p>主要实现方法：在 AndroidManifest.xml 对应的Activity里添加 android:windowSoftInputMode&#x3D;”adjustPan” 或是 android:windowSoftInputMode&#x3D;”adjustResize”属性<br>这两种属性的区别，官方的解释是： </p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/7.png" class>
+<p>这两个属性作用都是为了调整界面使键盘不挡住输入框,这里对这两种属性使用场景、优缺点、注意事项进行了全方面总结。对于<code>fitsystemwindows</code>还比较懵逼的你，可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/u012885461/article/details/51068553">这篇文章</a>。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/8.jpg" class>
+<p>最后附一张官方的截图。</p>
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/9.jpg" class title="该属性是在API级别3引入的。">
+<blockquote>
+<p><strong>插播知识：</strong><br>这里再提一下clipToPadding和clipChildren这两个属性吧，虽然和本篇没有关系但是同样是有一定概率出现的，所以要讲一下。clipToPadding就是说控件的绘制区域是否在padding里面的，true的情况下如果你设置了padding那么绘制的区域就往里缩，clipToPadding主要应用在listview头部和尾部设置padding后希望可以在滑动item时能滑动到padding区域。clipChildren表示是否限制子View在所属父View的范围内，我们将其值设置为false后那么当子控件的高度高于父控件时也会完全显示,而不会被压缩。注意clipChildren一定是在布局文件的根节点设置，否则不起作用,具体的使用请看<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.csdn.net/flymoon1201/article/details/44646473">这篇文章</a>以及<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zybuluo.com/TryLoveCatch/note/706916">这篇文章</a>。<strong>注意：</strong>有时候clipChildren会不起作用，如果确定考虑到了之前两篇文章所提及的内容，则应该想其它的办法替代clipChildren，这可以认为是clipChildren的BUG。</p>
+</blockquote>
+<h2 id="3-2-方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移"><a href="#3-2-方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移" class="headerlink" title="3.2 方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移"></a>3.2 方法二：当键盘弹起时，让界面整体上移；键盘收起，让界面整体下移</h2><p>使用场景：针对界面全屏模式，输入框不会被键盘遮挡。主要用于一些登录界面，或是需要把界面整体都顶上去的场景。</p>
+<h3 id="3-2-1-主要实现步骤"><a href="#3-2-1-主要实现步骤" class="headerlink" title="3.2.1 主要实现步骤"></a>3.2.1 主要实现步骤</h3><p>(1). 获取Activity布局xml的最外层控件，如xml文件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">android:id=&quot;@+id/main&quot;</span><br><span class="line">tools:context=&quot;com.example.liubin1.softkeyboardhelper.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;EditText</span><br><span class="line">android:id=&quot;@+id/name&quot;</span><br><span class="line">android:hint=&quot;请输入用户名：&quot;</span><br><span class="line">android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;50dp&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;EditText</span><br><span class="line">android:id=&quot;@+id/pas&quot;</span><br><span class="line">android:layout_below=&quot;@id/name&quot;</span><br><span class="line">android:hint=&quot;请输入密码：&quot;</span><br><span class="line">android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;50dp&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;Button</span><br><span class="line">android:id=&quot;@+id/login_btn&quot;</span><br><span class="line">android:layout_below=&quot;@id/rpas&quot;</span><br><span class="line">android:layout_centerHorizontal=&quot;true&quot;</span><br><span class="line">android:text=&quot;登录&quot;</span><br><span class="line">android:layout_width=&quot;180dp&quot;</span><br><span class="line">android:layout_height=&quot;50dp&quot; /&gt;</span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>先获取到最外层控件:<br>RelativeLayout main &#x3D; (RelativeLayout) findViewById(R.id.main);<br>(2). 获取到最后一个控件，如上面的xml文件，最后一个控件是Button:<br>Button login_btn &#x3D; (Button) findViewById(R.id.login_btn);<br>(3). 给最外层控件和最后一个控件添加监听事件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">//在Activity的onCreate里添加如下方法</span><br><span class="line">addLayoutListener(main,login_btn);</span><br><span class="line">/**   </span><br><span class="line">* addLayoutListener方法如下</span><br><span class="line">* @param main 根布局</span><br><span class="line">* @param scroll 需要显示的最下方View</span><br><span class="line">*/</span><br><span class="line">public void addLayoutListener(final View main, final View scroll) &#123;</span><br><span class="line">main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onGlobalLayout() &#123;</span><br><span class="line">Rect rect = new Rect();</span><br><span class="line">//1、获取main在窗体的可视区域</span><br><span class="line">main.getWindowVisibleDisplayFrame(rect);</span><br><span class="line">//2、获取main在窗体的不可视区域高度，在键盘没有弹起时，main.getRootView().getHeight()调节度应该和rect.bottom高度一样</span><br><span class="line">int mainInvisibleHeight = main.getRootView().getHeight() - rect.bottom;</span><br><span class="line">int screenHeight = main.getRootView().getHeight();//屏幕高度</span><br><span class="line">//3、不可见区域大于屏幕本身高度的1/4：说明键盘弹起了</span><br><span class="line">if (mainInvisibleHeight &gt; screenHeight / 4) &#123;</span><br><span class="line">int[] location = new int[2];</span><br><span class="line">scroll.getLocationInWindow(location);</span><br><span class="line">// 4､获取Scroll的窗体坐标，算出main需要滚动的高度</span><br><span class="line">int srollHeight = (location[1] + scroll.getHeight()) - rect.bottom;</span><br><span class="line">//5､让界面整体上移键盘的高度</span><br><span class="line">main.scrollTo(0, srollHeight);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">//3、不可见区域小于屏幕高度1/4时,说明键盘隐藏了，把界面下移，移回到原有高度</span><br><span class="line">main.scrollTo(0, 0);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-2-实现原理"><a href="#3-2-2-实现原理" class="headerlink" title="3.2.2 实现原理"></a>3.2.2 实现原理</h3><p>此方法通过监听 Activity 最外层布局控件来检测软键盘是否弹出，然后去手动调用控件的scrollTo方法达到调整布局目的。</p>
+<hr>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://segmentfault.com/a/1190000012279204">Android软键盘的显示与隐藏</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/smileiam/article/details/69055963">Android各种键盘挡住输入框解决办法</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/topics/manifest/activity-element.html?hl=zh-cn">API指南</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://stackoverflow.com/questions/2150078/how-to-check-visibility-of-software-keyboard-in-android">stackoverflow:监听软件的弹出与隐藏</a></li>
+</ol>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android 音视频开发实战
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">JAVA 设计模式总结</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            TXM &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

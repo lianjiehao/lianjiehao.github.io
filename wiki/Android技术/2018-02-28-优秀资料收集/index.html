@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    
+    <title>优秀资料收集 | 唐先明de博客</title>
+    
+    
+        <meta name="keywords" content="优秀资料收集">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="1 手势检测GestureDetector：http:&#x2F;&#x2F;www.gcssloop.com&#x2F;customview&#x2F;gestruedectorScaleGestureDetector：http:&#x2F;&#x2F;www.27house.cn&#x2F;archives&#x2F;526 2 Android 事件分发机制ViewRootImpl篇（前传）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;dongxianfei&#x2F;articl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优秀资料收集">
+<meta property="og:url" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="1 手势检测GestureDetector：http:&#x2F;&#x2F;www.gcssloop.com&#x2F;customview&#x2F;gestruedectorScaleGestureDetector：http:&#x2F;&#x2F;www.27house.cn&#x2F;archives&#x2F;526 2 Android 事件分发机制ViewRootImpl篇（前传）：https:&#x2F;&#x2F;blog.csdn.net&#x2F;dongxianfei&#x2F;articl">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-12-28T00:34:56.000Z">
+<meta property="article:modified_time" content="2024-12-29T01:23:47.086Z">
+<meta property="article:author" content="TXM">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/favicon.ico">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">唐先明de博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android技术
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">认识NDK</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">Android Studio NDK开发全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-AutoCache%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">AutoCache高性能缓存框架使用教程</a></li>  <li class="file active"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">优秀资料收集</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Fragment%E7%9A%84%E7%90%86%E8%A7%A3/">Fragment的理解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-26-SurfaceView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">SurfaceView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-27-Android%E5%AE%9E%E7%8E%B0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">Android实现阴影效果的三种方式</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">GlobalDialog框架使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-06-Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android中退出APP的解决方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-03-Android%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/">Android屏幕适配方案</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-09-Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">Android自定义View详细教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-13-Android%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%9B%BE%E7%89%87%E7%9A%84%E7%A0%94%E7%A9%B6/">Android获取系统图片的研究</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-20-Coordinatorlayout%E4%BD%BF%E7%94%A8%E5%85%A8%E6%94%BB%E7%95%A5/">Coordinatorlayout使用全攻略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-22-Android%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E6%96%B9%E7%95%A5/">Android图片压缩方略</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-04-29-PopupWindow%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">PopupWindow使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-06-Retrofit%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Retrofit使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-05-20-RecycleView%E6%8E%A2%E7%A9%B6%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%B0%BE%E5%B8%83%E5%B1%80/">RecycleView探究：添加头尾布局</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-06-21-Android%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8/">Android演化历史</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-07-21-%E7%94%B1View-post-%E6%96%B9%E6%B3%95%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%B3%E8%B1%A1/">由View.post()方法引发的想象</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-08-11-DecimalFormat%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">DecimalFormat使用详解</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-15-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8001%EF%BC%9A%E5%9D%90%E6%A0%87%E3%80%81%E5%8C%BA%E5%9F%9F%E3%80%81%E8%A7%86%E5%9B%BE%E5%B1%82%E7%BA%A7/">Android动画（一）：坐标、区域、视图层级</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-01-25-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">Android动画（二）：视图动画、属性动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-17-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB/">Android动画（三）：矢量图动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-02-22-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8004%EF%BC%9A%E6%B7%A1%E5%85%A5%E3%80%81%E7%BF%BB%E7%89%8C%E3%80%81%E6%8F%AD%E9%9C%B2%E5%8A%A8%E7%94%BB/">Android动画（四）：淡入淡出、翻牌、揭露动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-03-03-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8005%EF%BC%9APath%E7%B1%BB%E5%9E%8B%E6%8F%92%E5%80%BC%E5%99%A8%E3%80%81%E8%B7%AF%E5%BE%84%E5%8A%A8%E7%94%BB%E3%80%81Fling%E5%8A%A8%E7%94%BB/">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-01-24-WebView%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">WebView使用教程</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-21-%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8006%EF%BC%9A%E5%B8%83%E5%B1%80%E5%8A%A8%E7%94%BB/">Android动画（六）：布局动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-07-29-%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB/">Android动画（七）：过渡动画</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-11-07-Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Kotlin 使用笔记（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-09-18-Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">Android 问题汇总（进行中...）</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2019-10-18-ConstraintLayout%E5%B8%83%E5%B1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">ConstraintLayout 布局使用指南</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-29-Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">浅析 Android 组件化、插件化、热更新</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-03-07-MD5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">MD5加密算法</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-16-%E8%A7%A3%E8%AF%BBHander%E6%9C%BA%E5%88%B6/">解读 Hander 机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-27-MVX%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%BF%90%E7%94%A8/">分析 MVX 架构模式及其运用</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/">Android 进程间通信机制</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-08-19-Rxjava2%E7%A0%94%E7%A9%B6%E6%8C%87%E5%8D%97/">Rxjava2线程调度原理</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-18-Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">《深入浅出 Android 源代码》读后感</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-01-Android%E8%BD%AF%E9%94%AE%E7%9B%98/">Android软键盘</a></li>  <li class="file"><a href="/wiki/Android%E6%8A%80%E6%9C%AF/2020-06-26-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES/">Android 音视频开发实战</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            C语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">一份Linux系统下的C++开发指南</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Git/2018-02-16-Git%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99%E8%A1%A5%E5%85%85/">Git使用规则补充</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java基础
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>tag cloud</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Android技术/2018-02-28-优秀资料收集" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Android%E6%8A%80%E6%9C%AF/">Android技术</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2018-02-28-%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/">
+            <time datetime="2016-12-28T00:34:56.000Z" itemprop="datePublished">2016-12-28</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            优秀资料收集
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <!-- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%8B%E5%8A%BF%E6%A3%80%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">1 手势检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Android-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">2 Android 事件分发机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%AD%E6%96%87%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%99%E4%BD%9C%E8%A7%84%E8%8C%83"><span class="toc-number">3.</span> <span class="toc-text">3 中文技术文档的写作规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AE%A4%E8%AF%86-Android-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">4 认识 Android 文件存储目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-try-catch-finally-%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">5 try catch finally 详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-APP-%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="toc-number">6.</span> <span class="toc-text">6 APP 性能检测工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Android-Studio-%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-number">7.</span> <span class="toc-text">7 Android Studio 调试技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E9%9F%B3%E4%B9%90%E7%B1%BB%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91"><span class="toc-number">8.</span> <span class="toc-text">8 音乐类应用开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%8F%8D%E5%B0%84"><span class="toc-number">9.</span> <span class="toc-text">9 反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%B3%9B%E5%9E%8B"><span class="toc-number">10.</span> <span class="toc-text">10 泛型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-JVM"><span class="toc-number">11.</span> <span class="toc-text">11 JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%B3%A8%E8%A7%A3"><span class="toc-number">12.</span> <span class="toc-text">12 注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-Android-%E5%BA%94%E7%94%A8%E6%B7%B7%E6%B7%86"><span class="toc-number">13.</span> <span class="toc-text">13 Android 应用混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-Android-local%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">14.</span> <span class="toc-text">14 Android local单元测试</span></a></li></ol> -->
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%8B%E5%8A%BF%E6%A3%80%E6%B5%8B"><span class="toc-text">1 手势检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Android-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="toc-text">2 Android 事件分发机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%AD%E6%96%87%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%99%E4%BD%9C%E8%A7%84%E8%8C%83"><span class="toc-text">3 中文技术文档的写作规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AE%A4%E8%AF%86-Android-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%9B%AE%E5%BD%95"><span class="toc-text">4 认识 Android 文件存储目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-try-catch-finally-%E8%AF%A6%E8%A7%A3"><span class="toc-text">5 try catch finally 详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-APP-%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="toc-text">6 APP 性能检测工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Android-Studio-%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-text">7 Android Studio 调试技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E9%9F%B3%E4%B9%90%E7%B1%BB%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91"><span class="toc-text">8 音乐类应用开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%8F%8D%E5%B0%84"><span class="toc-text">9 反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%B3%9B%E5%9E%8B"><span class="toc-text">10 泛型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-JVM"><span class="toc-text">11 JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%B3%A8%E8%A7%A3"><span class="toc-text">12 注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-Android-%E5%BA%94%E7%94%A8%E6%B7%B7%E6%B7%86"><span class="toc-text">13 Android 应用混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-Android-local%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-text">14 Android local单元测试</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h3 id="1-手势检测"><a href="#1-手势检测" class="headerlink" title="1 手势检测"></a>1 手势检测</h3><p>GestureDetector：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.gcssloop.com/customview/gestruedector">http://www.gcssloop.com/customview/gestruedector</a><br>ScaleGestureDetector：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.27house.cn/archives/526">http://www.27house.cn/archives/526</a></p>
+<h3 id="2-Android-事件分发机制"><a href="#2-Android-事件分发机制" class="headerlink" title="2 Android 事件分发机制"></a>2 Android 事件分发机制</h3><p>ViewRootImpl篇（前传）：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/dongxianfei/article/details/83863888">https://blog.csdn.net/dongxianfei/article/details/83863888</a><br>Part01：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.gcssloop.com/customview/dispatch-touchevent-theory">http://www.gcssloop.com/customview/dispatch-touchevent-theory</a><br>Part02：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.gcssloop.com/customview/dispatch-touchevent-source">http://www.gcssloop.com/customview/dispatch-touchevent-source</a></p>
+<span id="more"></span>
+
+<h3 id="3-中文技术文档的写作规范"><a href="#3-中文技术文档的写作规范" class="headerlink" title="3 中文技术文档的写作规范"></a>3 中文技术文档的写作规范</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ruanyf/document-style-guide">https://github.com/ruanyf/document-style-guide</a></p>
+<h3 id="4-认识-Android-文件存储目录"><a href="#4-认识-Android-文件存储目录" class="headerlink" title="4 认识 Android 文件存储目录"></a>4 认识 Android 文件存储目录</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/u010937230/article/details/73303034">https://blog.csdn.net/u010937230/article/details/73303034</a></p>
+<blockquote>
+<p>注意：文件挂载相关的不用看，写的有点混乱。笔者认为这个部分意义也不大，如果要了解可以找下其它的技术文档。</p>
+</blockquote>
+<h3 id="5-try-catch-finally-详解"><a href="#5-try-catch-finally-详解" class="headerlink" title="5 try catch finally 详解"></a>5 try catch finally 详解</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/yanbigfeg/p/9295541.html">https://www.cnblogs.com/yanbigfeg/p/9295541.html</a></p>
+<h3 id="6-APP-性能检测工具"><a href="#6-APP-性能检测工具" class="headerlink" title="6 APP 性能检测工具"></a>6 APP 性能检测工具</h3><p>使用 CPU Profiler 检查 CPU 活动：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/entry/5c0daf65f265da6150644a1d%E3%80%82">https://juejin.im/entry/5c0daf65f265da6150644a1d。</a></p>
+<blockquote>
+<p>如需了解更多关于 CPU Profiler 的介绍，可参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/studio/profile/cpu-profiler">官方文章</a>。</p>
+</blockquote>
+<p>使用 Memory Profiler 检查内存使用情况：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/e75680772375">https://www.jianshu.com/p/e75680772375</a></p>
+<blockquote>
+<p>Memory Profiler 对内存泄露的展示结果不够友好（Android Studio 3.6.1），建议使用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://square.github.io/leakcanary/">LeakCanary</a> 进行内存泄露的检测，这是有关 leakcanary 源码分析的视频（笔者还没完全看明白，后面复习到再补充）。</p>
+</blockquote>
+<p>检查 GPU 渲染速度和过度绘制：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/topic/performance/rendering/inspect-gpu-rendering#profile_rendering">https://developer.android.com/topic/performance/rendering/inspect-gpu-rendering#profile_rendering</a></p>
+<h3 id="7-Android-Studio-调试技巧"><a href="#7-Android-Studio-调试技巧" class="headerlink" title="7 Android Studio 调试技巧"></a>7 Android Studio 调试技巧</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/9fbf316582e3">https://www.jianshu.com/p/9fbf316582e3</a></p>
+<blockquote>
+<p>注意：<br>1、Kotlin 对于以上链接中提到的一些调试技巧不适用。<br>2、文中介绍 <code>Step Into</code> 时说到的<strong>类库</strong>是指 java 提供的类库，如果是 Android 提供的 API 接口，依然会进入方法内。<br>3、Step Out 操作介绍：如果在调试的时候你进入了一个方法(如f2())，并觉得该方法没有问题，你就可以使用stepout跳出该方法，返回到该方法被调用处的下一行语句。值得注意的是，该方法已执行完毕。</p>
+</blockquote>
+<h3 id="8-音乐类应用开发"><a href="#8-音乐类应用开发" class="headerlink" title="8 音乐类应用开发"></a>8 音乐类应用开发</h3><p>1、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://mp.weixin.qq.com/s/AngSHW1qUBsl_acFhlWGDA">https://mp.weixin.qq.com/s/AngSHW1qUBsl_acFhlWGDA</a><br>2、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/topics/media-apps/audio-app/building-an-audio-app">https://developer.android.com/guide/topics/media-apps/audio-app/building-an-audio-app</a><br>3、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://exoplayer.dev/hello-world.html">https://exoplayer.dev/hello-world.html</a><br>4、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/googlesamples/android-MediaBrowserService/">https://github.com/googlesamples/android-MediaBrowserService/</a><br>5、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://stuff.mit.edu/afs/sipb/project/android/docs/training/managing-audio/audio-focus.html#HandleFocusLoss">https://stuff.mit.edu/afs/sipb/project/android/docs/training/managing-audio/audio-focus.html#HandleFocusLoss</a></p>
+<h3 id="9-反射"><a href="#9-反射" class="headerlink" title="9 反射"></a>9 反射</h3><p>廖雪峰 Java 教程：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264804593397984">https://www.liaoxuefeng.com/wiki/1252599548343744/1264804593397984</a></p>
+<blockquote>
+<p><strong>哪些情况会用到反射？</strong><br>1、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265102026065728">读取注解的值</a>。<br>2、日常开发过程中需要修改系统方法的场景。<br>3、<a target="_blank" rel="external nofollow noopener noreferrer" href="https://lianjiehao.github.io/2020/01/10/Android%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/">热更新、插件化</a>。<br>4、JNI 开发中 C 调用 Java 代码。</p>
+</blockquote>
+<h3 id="10-泛型"><a href="#10-泛型" class="headerlink" title="10 泛型"></a>10 泛型</h3><p>廖雪峰 Java 教程：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255945193293888">https://www.liaoxuefeng.com/wiki/1252599548343744/1255945193293888</a><br>码上开学：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://kaixue.io/kotlin-generics/">https://kaixue.io/kotlin-generics/</a></p>
+<blockquote>
+<p><strong>泛型如何具体化？</strong><br>1、使用 Kotlin 的 refied 关键字将泛型类型具体化。<br>2、使用 Class<t>。<br>3、使用 getGenericSuperclass 得到具体泛型类型后再使用之。参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265104600263968">廖雪峰 Java 教程</a>的“泛型继承”部分。同时，为了加深对这个概念的理解，建议阅读下 Gson 库中 TypeToken 的相关源码。</t></p>
+</blockquote>
+<h3 id="11-JVM"><a href="#11-JVM" class="headerlink" title="11 JVM"></a>11 JVM</h3><p>深入理解java虚拟机：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/qq_44543508/category_9493538.html?utm_source=ffzl_BWzd&spm=1001.2101.3001.4235">https://blog.csdn.net/qq_44543508/category_9493538.html?utm_source=ffzl_BWzd&amp;spm=1001.2101.3001.4235</a></p>
+<blockquote>
+<p><strong>java String 在内存中如何存储的?</strong><br><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/okyoung188/article/details/55506594">参考地址&gt;&gt;</a></p>
+</blockquote>
+<h3 id="12-注解"><a href="#12-注解" class="headerlink" title="12 注解"></a>12 注解</h3><p>廖雪峰 Java 教程：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255945389098144">https://www.liaoxuefeng.com/wiki/1252599548343744/1255945389098144</a></p>
+<h3 id="13-Android-应用混淆"><a href="#13-Android-应用混淆" class="headerlink" title="13 Android 应用混淆"></a>13 Android 应用混淆</h3><p>Proguard 介绍：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://medium.com/@JamesQI/proguard-d8cc2e67211">https://medium.com/@JamesQI/proguard-d8cc2e67211</a></p>
+<blockquote>
+<p>为了便于查看 Proguard 的混淆结果，学会查看 APP 中的代码是必备技能，具体方法请参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/84f5fb1f1562">这篇文章</a>中对 dex2jar 以及 jd-gui 的使用讲解。</p>
+</blockquote>
+<p><strong>实践经验：</strong><br>1、如果 Proguard 用得不是很熟（比如笔者）或者没有十足把握应对某个混淆场景时，那么建议多用类似<code>-keep class com.cxp.classname &#123;*;&#125;</code>这样的规则配置 Proguard，虽然混淆的力度会大大降低，但是可以最大限度保证代码逻辑还是正确的。这里还要强调的是<code>-keep class com.cxp.DemoClass &#123;*;&#125;</code>与<code>-keep class com.cxp.DemoClass</code>是有差别的，前者可以让 DemoClass 类的类名及其成员不被混淆，后者只能让 DemoClass 类的类名不被混淆。<br>2、新建一个Android项目后，会默认引入自带的混淆规则，即： “Android SDK根目录\tools\proguard\proguard-android-optimize.txt” 文件。不过现在你可以去掉默认引入逻辑了，原因是’proguard-android-optimize.txt’文件开头有下面这样一段描述：</p>
+<p><em>This file is no longer maintained and is not used by new (2.2+) versions of the Android plugin for Gradle. Instead, the Android plugin for Gradle generates the default rules at build time and stores them in the build directory.</em></p>
+<p>大概意思就是说，该默认规则从plugin 2.2版本开始就没有用了，取而代之的是编译时动态生成默认规则的方式，生成规则的文件是build&#x2F;intermediates&#x2F;aapt_proguard_file&#x2F;release&#x2F;aapt_rules.txt。同样地，在我们自定义的 Proguard 文件中，只需要关注自身业务的混淆规则，四大组件、Fragment 等这些既定的混淆策略不用写（当然，实际开发中还是要加强自测，万一默认规则有漏掉的呢）。</p>
+<h3 id="14-Android-local单元测试"><a href="#14-Android-local单元测试" class="headerlink" title="14 Android local单元测试"></a>14 Android local单元测试</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/simplezhli/AndroidUT">https://github.com/simplezhli/AndroidUT</a></p>
+<blockquote>
+<p>已看1-4章、9-10章，写得不错。</p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Java并发编程之Lock
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Java并发编程之Synchronized</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            TXM &copy; 2024 
+            <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
