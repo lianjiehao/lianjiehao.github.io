@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://example.com/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/10.png">
 <meta property="og:image" content="http://example.com/wiki/C%E8%AF%AD%E8%A8%80/2021-06-05-%E4%B8%80%E4%BB%BDLinux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84Cpp%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/11.png">
 <meta property="article:published_time" content="2021-06-05T04:41:08.000Z">
-<meta property="article:modified_time" content="2024-12-30T23:10:51.434Z">
+<meta property="article:modified_time" content="2024-12-30T23:18:37.783Z">
 <meta property="article:author" content="TXM">
 <meta property="article:tag" content="C语言开发指南">
 <meta name="twitter:card" content="summary">
@@ -367,7 +367,7 @@
 <p>系统环境：Ubuntu18.04 虚拟机<br>开发语言：C++<br>开发IDE ：VSCode</p>
 </blockquote>
 <span id="more"></span> 
-<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h1><p>111本篇讲解会是一个循序渐进的过程，前面4个部分的内容都是在为最后讲解 VSCode 开发 C++ 而做的铺垫。本文主旨是介绍如何在 Linux 系统下使用辅助工具快速开发 C++ 程序，不会涉及 C++ 语言本身语法的讲解。</p>
+<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h1><p>本篇讲解会是一个循序渐进的过程，前面4个部分的内容都是在为最后讲解 VSCode 开发 C++ 而做的铺垫。本文主旨是介绍如何在 Linux 系统下使用辅助工具快速开发 C++ 程序，不会涉及 C++ 语言本身语法的讲解。</p>
 <p><strong>通过阅读本文，你将学会如下技能：</strong><br>1、Linux 下 C++ 开发环境搭建。<br>2、g++ 编译器语法。<br>3、使用 GDB 调试程序。<br>4、使用 CMake 构建工程。<br>5、使用 VSCode 进行 C++ 开发和调试。</p>
 <h1 id="1-开发环境搭建"><a href="#1-开发环境搭建" class="headerlink" title="1 开发环境搭建"></a>1 开发环境搭建</h1><h2 id="1-1-编译器，调试器安装。"><a href="#1-1-编译器，调试器安装。" class="headerlink" title="1.1 编译器，调试器安装。"></a>1.1 编译器，调试器安装。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line"># 通过以下命令安装编译器和调试器。</span><br><span class="line">sudo apt install build-essential gdb</span><br></pre></td></tr></table></figure>
 <h2 id="1-2-安装成功确认。"><a href="#1-2-安装成功确认。" class="headerlink" title="1.2 安装成功确认。"></a>1.2 安装成功确认。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 以下命令确认每个软件是否安装成功</span><br><span class="line"># 如果成功，则显示版本号</span><br><span class="line">gcc --version</span><br><span class="line">g++ --version</span><br><span class="line">gdb --version</span><br></pre></td></tr></table></figure>
