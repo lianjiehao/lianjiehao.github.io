@@ -291,15 +291,6 @@
     </script>
 
     
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title"><span>tag cloud</span></h3>
-        <div class="widget tagcloud">
-            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
-        </div>
-    </div>
-
-    
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
@@ -360,15 +351,15 @@
             
         
         
-            <p>笔者已将本节的代码上传至<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tangxianming/AnimationPracticeApplication">Github</a>，大家可以结合着学习。<br>本篇以文章<a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/post/5aea7063f265da0b9b072758">《Android 动画：这是一份详细 &amp; 清晰的动画学习指南》</a>为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。<span id="more"></span></p>
+            <html><head></head><body><p>笔者已将本节的代码上传至<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tangxianming/AnimationPracticeApplication">Github</a>，大家可以结合着学习。<br>本篇以文章<a target="_blank" rel="external nofollow noopener noreferrer" href="https://juejin.im/post/5aea7063f265da0b9b072758">《Android 动画：这是一份详细 &amp; 清晰的动画学习指南》</a>为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。<span id="more"></span></p>
 <h1 id="1-LayoutAnimation的局限性"><a href="#1-LayoutAnimation的局限性" class="headerlink" title="1 LayoutAnimation的局限性"></a>1 LayoutAnimation的局限性</h1><p>LayoutAnimation 只在创建 ViewGroup 的时候生效，后续添加的子 View 是没有动画效果的。这和 LayoutTransition 有很大的区别，在后续介绍<a target="_blank" rel="external nofollow noopener noreferrer" href="https://kimball325.github.io/2019/01/25/%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">布局动画</a>时再展开介绍。</p>
 <h1 id="2-动画监听方法归类"><a href="#2-动画监听方法归类" class="headerlink" title="2 动画监听方法归类"></a>2 动画监听方法归类</h1><p>1、转场动画相关<br>Animation.setAnimationListener(Animation.AnimationListener listener);<br>2、属性动画相关<br>Animator.addListener(AnimatorListenerAdapter adapter);<br>Animator.addListener(Animator.AnimatorListener listener);<br>Animator.addPauseListener(Animator.AnimatorPauseListener listener);<br>Animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener listener);<br>3、ViewPropertyAnimator动画相关<br>ViewPropertyAnimator.setListener(AnimatorListenerAdapter adapter);<br>ViewPropertyAnimator.setListener(Animator.AnimatorListener listener);<br>ViewPropertyAnimator.setUpdateListener(AnimatorUpdateListener listener);<br>ViewPropertyAnimator.withEndAction(Runnable runnable);<br>ViewPropertyAnimator.withStartAction(Runnable runnable);</p>
 <blockquote>
-<p>** 注意 **<br>withStartAction() &#x2F; withEndAction() 是一次性的，在动画执行结束后就自动弃掉了，就算之后再重用  ViewPropertyAnimator 来做别的动画，用它们设置的回调也不会再被调用。而 set&#x2F;addListener() 所设置的 AnimatorListener 是持续有效的，当动画重复执行时，回调总会被调用。</p>
+<p>** 注意 **<br>withStartAction() / withEndAction() 是一次性的，在动画执行结束后就自动弃掉了，就算之后再重用  ViewPropertyAnimator 来做别的动画，用它们设置的回调也不会再被调用。而 set/addListener() 所设置的 AnimatorListener 是持续有效的，当动画重复执行时，回调总会被调用。</p>
 </blockquote>
 <p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://hencoder.com/ui-1-6/">参考链接&gt;&gt;</a></p>
 <h1 id="3-AnimationDrawable的使用时机"><a href="#3-AnimationDrawable的使用时机" class="headerlink" title="3 AnimationDrawable的使用时机"></a>3 AnimationDrawable的使用时机</h1><p>AnimationDrawable 的 start 方法不能在你的 Activity 的<code>onCreate()</code>中使用，否者会没有效果，因为这个时候 AnimationDrawable 还没有绑定到窗口。如果你想在进入页面后立即开始动画，可以在你的 Activity 的<code>onStart()</code>方法中调用。当然，你也可以在交互监听中调用 start 方法，比如在某个 View 的<code>onClick()</code>方法中调用。</p>
-
+</body></html>
             </div>
         
         <footer class="article-footer">

@@ -291,15 +291,6 @@
     </script>
 
     
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title"><span>tag cloud</span></h3>
-        <div class="widget tagcloud">
-            <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 16px;">Animation</a> <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" style="font-size: 10px;">C语言开发指南</a> <a href="/tags/DecimalFormat/" style="font-size: 10px;">DecimalFormat</a> <a href="/tags/Fragment/" style="font-size: 10px;">Fragment</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Handler/" style="font-size: 10px;">Handler</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/MVX/" style="font-size: 10px;">MVX</a> <a href="/tags/NDK/" style="font-size: 12px;">NDK</a> <a href="/tags/Retrofit-Okhttp/" style="font-size: 10px;">Retrofit&Okhttp</a> <a href="/tags/Rxjava2/" style="font-size: 10px;">Rxjava2</a> <a href="/tags/View/" style="font-size: 20px;">View</a> <a href="/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" style="font-size: 10px;">内存泄露</a> <a href="/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" style="font-size: 12px;">图片处理</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" style="font-size: 10px;">数据类型</a> <a href="/tags/%E6%9E%9A%E4%B8%BE/" style="font-size: 10px;">枚举</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96%E3%80%81%E6%8F%92%E4%BB%B6%E5%8C%96%E3%80%81%E7%83%AD%E6%9B%B4%E6%96%B0/" style="font-size: 10px;">组件化、插件化、热更新</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">进程通信</a> <a href="/tags/%E9%80%80%E5%87%BAAndroid%E5%BA%94%E7%94%A8/" style="font-size: 10px;">退出Android应用</a> <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/" style="font-size: 18px;">集合类</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 10px;">音视频</a>
-        </div>
-    </div>
-
-    
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
@@ -354,7 +345,7 @@
             
         
         
-            <blockquote>
+            <html><head></head><body><blockquote>
 <p><strong>注意</strong><br>本系列文章是笔者在参考了大量优秀文章的基础上的理解，由于水平有限，难免会出现错误，望批评指正，同时我也会把自己最新的理解及时更新到文章中去。最后，我会在文中注明参考文章，特别感谢这些无私奉献的作者。</p>
 </blockquote>
 <span id="more"></span>
@@ -380,13 +371,13 @@
 <p>1、JDK 1.7 中的 ConcurrentHashMap 采用分段锁的方式对 HashMap 加锁，它内部维护着一个 Segment 数组，每个 Segment 内维护着一个存放键值对的数组，Segment 就和小型 HashMap 一样，同样有扩容、数据迁移等操作。ConcurrentHashMap 的 size 计算方式有很大的不同，它是所有 Segment 中数组元素个数的总和，求和过程是：</p>
 <p>首先尝试用 CAS 的方式求值，如果过程中有其它线程更改了 ConcurrentHashMap （通过 modCount 就能发现），则这一轮的求值失败，反复尝试多次如果不成功就把每个 Segment 都加锁，再分别获取求和。</p>
 <p>2、JDK 1.8 中的 ConcurrentHashMap 中采用的 CAS + Synchronized 实现线程安全。</p>
-<p>当添加的元素时，如果数组为空，则通过CAS自旋新建数组。数组不为空，但添加位为空时，直接用CAS添加。当添加位key的hash&#x3D;&#x3D;MOVE时，表示 ConcurrentHashMap 正在扩容，则帮助其扩容。以上条件都不满足的话，就进入Synchronized代码块执行元素操作（类似 JDK 1.8 的 HashMap）。最后执行 addCount 方法将元素个数 +1 并执行扩容判断逻辑。</p>
+<p>当添加的元素时，如果数组为空，则通过CAS自旋新建数组。数组不为空，但添加位为空时，直接用CAS添加。当添加位key的hash==MOVE时，表示 ConcurrentHashMap 正在扩容，则帮助其扩容。以上条件都不满足的话，就进入Synchronized代码块执行元素操作（类似 JDK 1.8 的 HashMap）。最后执行 addCount 方法将元素个数 +1 并执行扩容判断逻辑。</p>
 <p>元素个数+1，涉及操作 CounterCell[] 和 baseCount，试想为了 size 值正确我们完全可以将 size 设置成 Volatile 类型，然后用 CAS 自旋来实现size的加1操作，但如果有很多线程同时对size做加1操作的话，效率就不高了，所以 JDK 1.8 的 ConcurrentHashMap 通过 baseCount 和 CounterCell数组两个属性同时参与元素个数的统计，具体就是通过 CAS 操作保证最后baseCount加1成功或者 CounterCell 数组中的某个对应 CounterCell 加1成功。</p>
 <p>扩容大概流程是从数组最后一位往前遍历，确定每个线程负责转移的步长（即数组区域），每个转移完成的桶位置都放置一个 ForwardingNode ，直到转移完成。</p>
 <p>3、ConcurrentHashMap 不论是 JDK 1.7 还是 JDK 1.8扩容后的新哈希表中对应节点都会重新新建对象，这一点和 HashMap 不一样，HashMap 还是原来的节点。</p>
 <p><strong>一个问题：HashTable, ConcurrentHashMap为什么键和值不能为null，而 HashMap 可以 ？</strong><br>因为 HashTable , ConcurrentHashMap 它们是用于多线程的，并发的 ，如果map.get(key)得到了null，不能判断到底是映射的value是null,还是因为没有找到对应的key而为空，而对于单线程状态的HashMap 却可以用 containKey（key） 去判断到底是否包含了这个key。比如：一个线程先get(key)再containKey(key)，这两个方法的中间时刻，其他线程怎么操作这个key都会可能发生，例如删掉这个key，所以多线程场景中 value 为 null 就很容易产生歧义。</p>
 <p>至于，为什么 key 也不能为 null ，我想不出这是为什么。</p>
-
+</body></html>
             </div>
         
         <footer class="article-footer">
