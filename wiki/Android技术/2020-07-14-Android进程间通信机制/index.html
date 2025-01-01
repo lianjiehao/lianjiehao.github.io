@@ -16,15 +16,15 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="本文将介绍 Android 实现进程间通信的几种方式，进入正题之前，我们首先来了解下多进程的概念，知道多进程是什么，以及为什么要用多进程。">
 <meta property="og:locale">
-<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg">
-<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/mmap.jpg">
-<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/io.jpg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/mmap.jpg">
+<meta property="og:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/io.jpg">
 <meta property="article:published_time" content="2020-01-15T06:03:32.000Z">
 <meta property="article:modified_time" content="2024-12-30T13:28:22.254Z">
 <meta property="article:author" content="TXM">
 <meta property="article:tag" content="进程通信">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg">
+<meta name="twitter:image" content="http://example.com/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg">
     
 
     
@@ -217,6 +217,15 @@
                             Java基础
                         </a>
                          <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/">Java正则表达式详解</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-18-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/">Java并发编程之Synchronized</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-20-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BLock/">Java并发编程之Lock</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-21-Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BVolatile%E5%92%8CAutomic/">Java 并发编程之 Volatile 和 Automic</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-13-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-03-24-Java%E6%9E%9A%E4%B8%BE%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">Java枚举用法总结</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2019-10-24-Java%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90/">Java 数据类型解析</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%9A%E5%BC%80%E7%AF%87/">Java集合（一）：开篇</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AArrayList/">Java集合（二）：ArrayList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-12-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84List/">Java集合（三）：线程安全的 List</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedList/">Java集合（四）：LinkedList</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-13-Java%E9%9B%86%E5%90%88%EF%BC%9AHashMap/">Java集合（五）：HashMap</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-14-Java%E9%9B%86%E5%90%88%EF%BC%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84Map/">Java集合（六）：线程安全的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-15-Java%E9%9B%86%E5%90%88%EF%BC%9ALinkedHashMap/">Java集合（七）：有序的Map</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-16-Java%E9%9B%86%E5%90%88%EF%BC%9ASet/">Java集合（八）：Set</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-08-04-IO%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/">IO 操作案例</a></li>  <li class="file"><a href="/wiki/Java%E5%9F%BA%E7%A1%80/2020-03-08-JAVA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%E4%B9%8B23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">JAVA 设计模式总结</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E8%AF%BB%E3%80%8A%E6%98%8E%E6%9C%9D%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E3%80%8B%E7%9A%84%E6%84%9F%E6%82%9F%EF%BC%9A%E6%88%91%E6%83%B3%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BA%BA%EF%BC%9F/">明朝那些事儿：我想成为一个什么样的人？</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -424,17 +433,17 @@
 </tbody></table>
 <p>Binder “数据拷贝一次”是什么意思？其实这里就涉及到 mmap（memory mapping）的使用了。</p>
 <p>虚拟内存被用户系统分为两部分：用户空间和内核空间，用户空间是用户代码运行的地方，内核空间是内核代码运行的地方，内核空间由所有进程共享。为了安全，用户空间和内核空间是隔离的，即使用户空间的程序发生崩溃，内核也不会受到影响。每个用户空间（进程）之前也是互相隔离的，为了让进程之间可以互相通信，我们可以借助共享内核来实现数据传输。</p>
-<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg" class title="Binder通信">
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/binder.jpg" class title="Binder通信">
 
 <p>当数据从用户内存中拷贝到内核空间时，会在内核区域开辟一块虚拟内存，即 Binder 缓冲区，之后利用 mmap 技术将这块虚拟内存与接收方的虚拟内存映射到同一块物理内存上，这样就省去了从内核空间到用户空间的拷贝操作，从而实现了 binder 的一次拷贝技术（从用户空间到内核空间）。同时，binder 缓冲区的空间是有限的，所以需要及时释放内存，为后续拷贝操作做准备。</p>
 <p>mmap 是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系。下面我们利用 mmap 来实现文件写入功能。NDK使用知识请参考笔者写的两篇文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://localhost:4000/2016/08/06/%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/">文章一</a>，<a target="_blank" rel="external nofollow noopener noreferrer" href="http://localhost:4000/2016/08/14/NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/">文章二</a>。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">extern &quot;C&quot;</span><br><span class="line">JNIEXPORT void JNICALL</span><br><span class="line">Java_com_cxp_ndkapplication_HelloLibrary_write(JNIEnv *env, jobject thiz) &#123;</span><br><span class="line">    std::string file = &quot;/storage/emulated/0/a.txt&quot;;</span><br><span class="line"></span><br><span class="line">	//打开文件 new File(&quot;&quot;)</span><br><span class="line">    int m_fd = open(file.c_str(), O_RDWR | O_CREAT, S_IRWXU);</span><br><span class="line"></span><br><span class="line">	//获取一页内存大小</span><br><span class="line">	//Linux采用了分页来管理内存，即内存的管理中，内存是以页为单位，一般的32位系统一页为 4096 个字节。</span><br><span class="line">    int32_t m_size = getpagesize();</span><br><span class="line"></span><br><span class="line">	//将文件设置为 m_size 这么大。</span><br><span class="line">    ftruncate(m_fd, m_size);</span><br><span class="line"></span><br><span class="line">	//m_size：映射区的长度。需要是整数页个字节 byte[]。</span><br><span class="line">    int8_t *m_ptr = static_cast&lt;int8_t *&gt;(mmap(0, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd,0));</span><br><span class="line"></span><br><span class="line">    std::string data(&quot;12345&quot;);</span><br><span class="line">	</span><br><span class="line">	//将 data 的 data.size() 个数据 拷贝到 m_ptr。</span><br><span class="line">    memcpy(m_ptr, data.data(), data.size());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/mmap.jpg" class title="mmap操作文件">
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/mmap.jpg" class title="mmap操作文件">
 
 <p>由上图可知，利用 mmap 操作文件是没有内核来参与的，发生零次数据拷贝。</p>
 <p>而对于普通IO操作，则需要内核的参与，总共发生了两次数据拷贝。</p>
-<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/io.jpg" class title="普通IO操作">
+<img src="/wiki/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/Android%E6%8A%80%E6%9C%AF/2020-07-14-Android%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6/io.jpg" class title="普通IO操作">
 
 <p><strong>这个时候就有疑惑了</strong>，前面讲到 binder 机制的实现利用到了 mmap 技术，可是却也经过了内核的拷贝操作啊。其实产生这个疑惑的原因是将 mmap 将内核挂钩了，这样想是不对的。我们可以把 binder 中提到的物理地址想象成文件地址，这样我们在内核区域将一段虚拟内存通过 mmap 映射到物理地址，再将用户空间的一段虚拟内存同样通过 mmap 映射到同一块物理地址后，再对内核区域虚拟空间的操作就等同于对用户空间的操作。</p>
 <p>具体关于mmap的介绍请参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/u013525455/article/details/52582839">这篇文章</a>范例模块之前的内容，当然我还有一些地方不明白的，比如“匿名内存映射”，等到具体使用时再来复盘，这里只需知道什么是 mmap，以及它的基本用法。</p>
@@ -496,7 +505,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            TXM &copy; 2024 
+            TXM &copy; 2025 
             <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
             <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
             
