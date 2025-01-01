@@ -167,11 +167,11 @@ code {
   clear: both;
 }
 .logo {
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   background-repeat: no-repeat;
   background-image: url("images/logo.png");
-  background-size: 32px 32px;
+  background-size: 25px 25px;
 }
 #container {
   position: relative;
@@ -365,9 +365,9 @@ code {
 #main-nav,
 #sub-nav,
 #search-form-wrap {
-  height: 32px;
-  line-height: 32px;
-  padding: 8px 15px;
+  height: 25px;
+  line-height: 25px;
+  padding: 11.5px 15px;
 }
 .header-inner #logo,
 #main-nav {
@@ -396,11 +396,11 @@ code {
 }
 #header-title {
   text-align: center;
-  height: 32px;
+  height: 25px;
   position: absolute;
   top: 50%;
   left: 0;
-  margin-top: -16px;
+  margin-top: -12.5px;
 }
 .header-sub {
   border-top: 1px solid #dfe1e2;
@@ -471,8 +471,8 @@ code {
   height: 14px;
   position: relative;
   cursor: pointer;
-  height: 32px !important;
-  line-height: 32px !important;
+  height: 25px !important;
+  line-height: 25px !important;
 }
 .main-nav-link {
   font-weight: 300;
@@ -484,8 +484,8 @@ code {
 }
 #sub-nav #profile-nav #profile-anchor {
   display: block;
-  height: 32px;
-  line-height: 32px;
+  height: 25px;
+  line-height: 25px;
 }
 #sub-nav #profile-nav #profile-anchor:before,
 #sub-nav #profile-nav #profile-anchor:after {
@@ -500,12 +500,12 @@ code {
   float: left;
 }
 #sub-nav #profile-nav .avatar {
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   margin-right: 8px;
 }
 #sub-nav #profile-nav .fa {
-  line-height: 32px;
+  line-height: 25px;
 }
 @media screen and (max-width: 559px) {
   #search-form-wrap {
@@ -518,9 +518,9 @@ code {
 #search-form-wrap .search-form .search-form-input {
   width: 100%;
   padding: 0 30px 0 15px;
-  line-height: 32px;
-  height: 32px !important;
-  border-radius: 17px;
+  line-height: 25px;
+  height: 25px !important;
+  border-radius: 13.5px;
 }
 #search-form-wrap .search-form .search-form-input::-webkit-search-results-decoration,
 #search-form-wrap .search-form .search-form-input::-webkit-search-cancel-button {
