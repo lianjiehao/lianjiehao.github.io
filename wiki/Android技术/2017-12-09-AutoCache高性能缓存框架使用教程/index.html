@@ -69,8 +69,6 @@
 
 
     
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
 <meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
@@ -99,7 +97,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar">
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -118,10 +116,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Entradas',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -154,7 +152,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar">
     </div>
 
                 </td>
@@ -171,7 +169,7 @@
         
     <div class="widget-wrap" id="categories">
         <h3 class="widget-title">
-            <span>categories</span>
+            <span>Categorias</span>
             &nbsp;
             <a id="allExpand" href="#">
                 <i class="fa fa-angle-double-down fa-2x"></i>
@@ -320,9 +318,6 @@
 
 
                         
-                            <i class="fa fa-bar-chart"></i>
-                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
-                        
                         
                     </div>
                 
@@ -341,7 +336,7 @@
         
             
                 <div id="toc" class="toc-article">
-                <strong class="toc-title">Catalogue</strong>
+                <strong class="toc-title">Catálogo</strong>
                     <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-API%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1 API介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">2 集成方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">3 调用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-number">4.</span> <span class="toc-text">4 文件类型支持</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.</span> <span class="toc-text">5 使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">6.</span> <span class="toc-text">6 最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E9%98%B2%E6%AD%A2OOM"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 防止OOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%AE%9A%E5%88%B6%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 定制回调方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-FAQ"><span class="toc-number">7.</span> <span class="toc-text">7 FAQ</span></a></li></ol> -->
                     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-API%E4%BB%8B%E7%BB%8D"><span class="toc-text">1 API介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95"><span class="toc-text">2 集成方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">3 调用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-text">4 文件类型支持</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">5 使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">6 最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E9%98%B2%E6%AD%A2OOM"><span class="toc-text">6.1 防止OOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%AE%9A%E5%88%B6%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-text">6.2 定制回调方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-FAQ"><span class="toc-text">7 FAQ</span></a></li></ol>
                 </div>
@@ -416,7 +411,7 @@
 <nav id="article-nav">
     
         <a href="/wiki/Java%E5%9F%BA%E7%A1%80/2018-01-16-Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
+            <strong class="article-nav-caption">Más nuevo</strong>
             <div class="article-nav-title">
                 
                     Java正则表达式详解
@@ -426,7 +421,7 @@
     
     
         <a href="/wiki/Android%E6%8A%80%E6%9C%AF/2017-12-09-NDK%E5%BC%80%E5%8F%91%E5%85%A8%E6%94%BB%E7%95%A5/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
+            <strong class="article-nav-caption">Más viejo</strong>
             <div class="article-nav-title">Android Studio NDK开发全攻略</div>
         </a>
     
@@ -454,11 +449,6 @@
             TXM &copy; 2025 
             <a rel="external nofollow noopener noreferrer" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
             <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
-            
-                <br>
-                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
-                &nbsp;|&nbsp;
-                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
             
         </div>
     </div>
